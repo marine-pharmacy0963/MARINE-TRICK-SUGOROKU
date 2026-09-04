@@ -11,7 +11,7 @@ button{border:0;border-radius:12px;padding:11px 14px;font-weight:900;cursor:poin
 .login{position:fixed;inset:0;background:linear-gradient(#04283e,#0a617c);z-index:100;display:flex;align-items:center;justify-content:center}.loginbox{width:min(420px,92vw);background:#073e59;padding:24px;border-radius:22px;text-align:center}.hidden{display:none!important}
 </style></head><body>
 <div id="login" class="login"><div class="loginbox"><div>MARINE COLLECTION MASTER</div><h1>MARINE SUGOROKU MASTER</h1><input id="pw" type="password" placeholder="管理パスワード"><button id="loginBtn" class="secondary">ログイン</button><div id="loginMsg" class="small"></div></div></div>
-<header><div class="brand">🌊 MARINE SUGOROKU MASTER <span style="display:inline-block;margin-left:8px;padding:5px 10px;border-radius:999px;background:#061f39;color:#fff;font-size:12px;letter-spacing:.08em">BUILD v72</span></div><div id="updated" class="small">未保存</div></header>
+<header><div class="brand">🌊 MARINE SUGOROKU MASTER <span style="display:inline-block;margin-left:8px;padding:5px 10px;border-radius:999px;background:#061f39;color:#fff;font-size:12px;letter-spacing:.08em">BUILD v74</span></div><div id="updated" class="small">未保存</div></header>
 <div class="wrap">
 <section class="panel"><h2>公開ゲーム基本設定</h2><div class="grid">
 <div class="card"><label>画像最大辺</label><select id="imageMax"><option>512</option><option selected>1024</option><option>1600</option><option>2048</option></select><label>JPEG品質</label><input id="quality" type="number" min=".4" max="1" step=".05" value=".82"></div>
@@ -75,7 +75,7 @@ function publicHTML(){
 *{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Hiragino Sans","Yu Gothic",sans-serif;background:linear-gradient(#dffbff,#25a8cf);color:#123f58}button,select{font:inherit}.wrap{max-width:850px;margin:auto;padding:16px}.box{background:#f7fdffff;border:4px solid #b8e9f5;border-radius:28px;padding:20px;margin-bottom:18px;box-shadow:0 8px 20px #12627b22}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.setting{background:white;border:4px solid #c4ebf5;border-radius:24px;padding:14px;font-weight:900}.setting select{width:100%;padding:12px;border:2px solid #a9ddec;border-radius:15px;background:#f2f2f2;margin-top:8px}.start{background:#0db274;color:white;border:0;border-radius:18px;padding:17px 26px;font-weight:900;font-size:22px;box-shadow:0 7px 0 #087c52}.hidden{display:none!important}.topstat{display:flex;gap:8px;flex-wrap:wrap}.pill{background:white;border-radius:18px;padding:9px 12px;font-weight:900}.turn{text-align:center;font-size:25px;font-weight:900}.toolbar{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}.btn{border:0;border-radius:16px;padding:13px 16px;background:#627f8d;color:white;font-weight:900}.roll{display:block;margin:12px auto;background:#138dcb;color:white;border:0;border-radius:20px;padding:19px 28px;font-size:25px;font-weight:900;box-shadow:0 7px 0 #096898}.distance{text-align:center;font-size:20px;font-weight:900}.mapShell{overflow:auto;background:#0d7393;border-radius:22px;padding:10px;max-height:65vh}.maps{display:flex;flex-direction:column;gap:18px;min-width:max-content}.map{--cell:58px;--gap:5px;display:grid;grid-template-columns:repeat(13,var(--cell));grid-template-rows:repeat(7,var(--cell));gap:var(--gap);padding:8px;background:#26a8cf;border-radius:18px;position:relative}.cell{width:var(--cell);height:var(--cell);position:relative;border-radius:14px;background:#1585a8;border:1px solid #ffffff33;display:flex;align-items:center;justify-content:center}.cell.active{background:#39b5d7}.tile{width:72%;height:72%;border-radius:13px;background:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;z-index:4;overflow:hidden}.tile img,.token img{width:100%;height:100%;object-fit:cover}.road{position:absolute;background:#e5fbff;z-index:1}.road.h{height:8px;top:50%;transform:translateY(-50%)}.road.v{width:8px;left:50%;transform:translateX(-50%)}.road.r{left:50%;right:calc(-1*var(--gap) - 1px)}.road.l{right:50%;left:calc(-1*var(--gap) - 1px)}.road.d{top:50%;bottom:calc(-1*var(--gap) - 1px)}.road.u{bottom:50%;top:calc(-1*var(--gap) - 1px)}.token{position:absolute;z-index:10;width:48px;height:48px;border-radius:50%;background:#fff;border:4px solid #0b5871;display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:28px;box-shadow:0 4px 10px #00394f88;left:50%;top:50%;transform:translate(-50%,-50%)}.goalmark{position:absolute;z-index:12;right:-8px;top:-14px;background:#ff4057;color:#fff;border:3px solid #fff;border-radius:14px;padding:3px 7px;font-size:11px;font-weight:900;box-shadow:0 4px 10px #55222a88;white-space:nowrap}.route{position:absolute;background:#ff1744!important;z-index:9!important;box-shadow:0 0 10px #ff1744;pointer-events:none}.route.h{height:9px!important}.route.v{width:9px!important}.route.h{height:7px;top:50%;transform:translateY(-50%)}.route.v{width:7px;left:50%;transform:translateX(-50%)}.pop{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;background:#00263877;pointer-events:none}.pop.show{display:flex}.popbox{background:white;border:5px solid #8ee4f6;border-radius:26px;padding:22px 28px;text-align:center;font-size:24px;font-weight:900;box-shadow:0 12px 35px #00374f88;animation:popin .2s ease-out}.dicebig{font-size:72px;display:block;margin-bottom:5px}.rolling{}@keyframes diceRoll{0%{transform:rotate(0) translateX(-28px) scale(.8)}25%{transform:rotate(180deg) translateX(0) scale(1.15)}50%{transform:rotate(360deg) translateX(28px) scale(.85)}75%{transform:rotate(540deg) translateX(0) scale(1.15)}100%{transform:rotate(720deg) translateX(-28px) scale(.8)}}.rollingdie{display:block;font-size:76px;animation:diceRoll .18s linear infinite}.popplayer{width:64px;height:64px;border-radius:50%;border:4px solid #0b5871;background:#fff;display:inline-flex;align-items:center;justify-content:center;overflow:hidden;font-size:40px;vertical-align:middle;margin-right:8px}.popplayer img{width:100%;height:100%;object-fit:cover}@keyframes popin{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}.choice{outline:5px solid #ffe66d;box-shadow:0 0 20px #fff36c;animation:p .7s infinite alternate;cursor:pointer}.routecell{box-shadow:inset 0 0 0 5px #ff1744!important}.current{outline:4px solid #ff665f}@keyframes p{to{transform:scale(1.06)}}.modal{position:fixed;inset:0;background:#002638df;z-index:30;display:none;overflow:auto;padding:15px}.modal.open{display:block}.modalbox{background:#eafaff;border-radius:20px;padding:14px;min-width:max-content}.overview .map{--cell:37px;--gap:3px}@media(max-width:600px){.wrap{padding:10px}.box{padding:14px}.map{--cell:54px}.grid{gap:10px}.setting{padding:11px}}
 @media print{@page{size:A4 landscape;margin:7mm}body{background:#fff}.noPrint,#home,#game>.box{display:none!important}#printPages{display:block!important}.printPage{width:277mm;height:190mm;break-after:page;display:flex;align-items:center;justify-content:center}.printPage .map{--cell:18mm;--gap:1mm}.printPage .token{display:none}}
 .helpgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.helpitem{background:#fff;border:2px solid #b9e8f3;border-radius:16px;padding:12px;font-weight:800}.helpitem .big{font-size:30px}.prob{font-size:12px;opacity:.75}.token.cluster{width:38px;height:38px;font-size:22px;border-width:3px}.token.cluster img{width:100%;height:100%;object-fit:cover}@media(max-width:520px){.helpgrid{grid-template-columns:1fr}}</style></head><body><div class="wrap">
-<section id="home" id="setup"><div style="margin:0 0 12px"><span style="display:inline-block;background:#061f39;color:white;border-radius:999px;padding:7px 13px;font-weight:900;letter-spacing:.08em;box-shadow:0 5px 12px #00384c44">BUILD v72</span></div><div class="box"><h1>🎮 あそびかたを選ぶ</h1><div class="grid">
+<section id="home"><div style="margin:0 0 12px"><span style="display:inline-block;background:#061f39;color:white;border-radius:999px;padding:7px 13px;font-weight:900;letter-spacing:.08em;box-shadow:0 5px 12px #00384c44">BUILD v74</span></div><div class="box"><h1>🎮 あそびかたを選ぶ</h1><div class="grid">
 <div class="setting">👥 操作プレイヤー人数<select id="humans"><option value="1" selected>1人</option><option value="2">2人</option><option value="3">3人</option><option value="4">4人</option><option value="5">5人</option><option value="6">6人</option><option value="7">7人</option><option value="8">8人</option></select></div>
 <div class="setting">🤖 CPU人数<select id="cpus"><option value="0">0人</option><option value="1">1人</option><option value="2" selected>2人</option><option value="3">3人</option><option value="4">4人</option><option value="5">5人</option><option value="6">6人</option><option value="7">7人</option></select></div>
 <div id="iconChoices" class="setting" style="grid-column:1/-1"><b>🐟 プレイヤーアイコン</b><div id="iconChoiceGrid" class="grid" style="margin-top:10px"></div></div>
@@ -83,7 +83,7 @@ function publicHTML(){
 </div></div>
 <div class="box"><h2>📖 ルール</h2><p>🎯 ランダムに決まる目的地をめざそう！<br>🐚 貝殻を集めながら進みます。<br>🌊 進む・戻る・休みなどのイベントあり。<br>👆 サイコロのあと、光ったマスをタップして1マスずつ進みます。</p></div>
 <div class="box"><div class="box"><h2>🧭 マスのアイコン説明</h2><div style="display:flex;flex-wrap:wrap;gap:10px;font-weight:800;margin-bottom:16px"><span>🐚 貝殻GET</span><span>🐚2 / 🐚3 貝殻2・3個</span><span>⏩ 進む</span><span>⏪ 戻る</span><span>💤 1回休み</span><span>✨ ランダムイベント</span><span>🎯 目的地</span></div></div><button id="start" class="start">🎲 ゲームスタート！</button></div></section>
-<section id="game" class="hidden"><div class="noPrint" style="margin:0 0 12px"><span style="display:inline-block;background:#061f39;color:white;border-radius:999px;padding:7px 13px;font-weight:900;letter-spacing:.08em;box-shadow:0 5px 12px #00384c44">BUILD v72</span></div><div class="box"><div class="topstat"><span class="pill" id="goal">🎯 目的地</span><span class="pill" id="round">ラウンド 1</span><span class="pill" id="score"></span></div></div>
+<section id="game" class="hidden"><div class="noPrint" style="margin:0 0 12px"><span style="display:inline-block;background:#061f39;color:white;border-radius:999px;padding:7px 13px;font-weight:900;letter-spacing:.08em;box-shadow:0 5px 12px #00384c44">BUILD v74</span></div><div class="box"><div class="topstat"><span class="pill" id="goal">🎯 目的地</span><span class="pill" id="round">ラウンド 1</span><span class="pill" id="score"></span></div></div>
 <div class="box"><div id="turn" class="turn">あなたのターン</div><div class="toolbar"><button id="mypos" class="btn">📍 自分の位置</button><button id="helpBtn">📖 マス・イベント</button><button id="overview" class="btn">🗺️ 全体マップ</button><button id="save" class="btn">💾 セーブ</button></div></div>
 <div class="box"><div id="distance" class="distance">⬆️ 🎯まで最短 - マス</div><button id="roll" class="roll">🎲 サイコロをふる</button><div id="guide" class="distance" style="font-size:14px"></div></div>
 <div class="mapShell" id="mapShell"><div id="maps" class="maps"></div></div><div class="box noPrint"><button id="pdf" class="btn">📄 このコースをPDF出力</button></div></section>
@@ -104,7 +104,7 @@ function gen(){S.maps=+$("length").value;S.nodes={};S.edges=[];S.dests=[];
  }
  let budget=S.maps*42;
  for(let i=0;i<budget;i++){let keys=Object.keys(S.nodes),cur=keys[Math.floor(Math.random()*keys.length)],steps=1+Math.floor(Math.random()*4);for(let q=0;q<steps;q++){let X=pk(cur),opts=D.slice().sort(()=>Math.random()-.5),made=false;for(let z of opts){let nr=X.r+z[0],nc=X.c+z[1];if(nr<0||nr>=R||nc<0||nc>=C)continue;let y=k(X.m,nr,nc);if(!S.nodes[y]){node(X.m,nr,nc);edge(cur,y);cur=y;made=true;break}}if(!made)break}}
- let types=["normal","normal","shell1","shell1","shell2","shell3","forward","back","rest","event"];for(let n of Object.values(S.nodes))if(n.type!=="destination")n.type=types[Math.floor(Math.random()*types.length)];let humans=+$("humans").value,cpus=+$("cpus").value,total=Math.min(8,humans+cpus),start=node(0,6,6,"normal");S.players=Array.from({length:total},(_,i)=>({name:i<humans?"P"+(i+1):"CPU"+(i-humans+1),cpu:i>=humans,icon:chosenIcons[i]??(i%CFG.icons.length),pos:start,shells:0,goals:0,skip:0}));S.turn=0;S.round=1;S.goal=S.dests[Math.floor(Math.random()*S.dests.length)].id;S.moving=false;render()}
+ let types=["normal","normal","shell1","shell1","shell2","shell3","forward","back","rest","event"];for(let n of Object.values(S.nodes))if(n.type!=="destination")n.type=types[Math.floor(Math.random()*types.length)];}
 function goalNode(){return S.dests.find(d=>d.id===S.goal)?.node}function visual(n){if(n.type==="destination"){let id=S.dests.find(d=>d.node===n.id)?.id,d=CFG.destinations[id-1];return d.icon?'<img src="'+d.icon+'">':d.emoji}let im=CFG.tiles[n.type];return im?'<img src="'+im+'">':(T[n.type]||"")}
 function renderMap(el,mode,mapOnly=null){el.innerHTML="";for(let m=0;m<S.maps;m++){if(mapOnly!==null&&m!==mapOnly)continue;let M=document.createElement("div");M.className="map";for(let r=0;r<R;r++)for(let c=0;c<C;c++){let id=k(m,r,c),n=S.nodes[id],x=document.createElement("div");x.className="cell"+(n?" active":"");x.dataset.node=id;if(n){for(let y of nb(id)){let B=pk(y);if(B.m!==m)continue;if(B.r===r&&B.c===c+1)x.innerHTML+='<i class="road h r"></i>';if(B.r===r&&B.c===c-1)x.innerHTML+='<i class="road h l"></i>';if(B.c===c&&B.r===r+1)x.innerHTML+='<i class="road v d"></i>';if(B.c===c&&B.r===r-1)x.innerHTML+='<i class="road v u"></i>'}x.innerHTML+='<div class="tile">'+visual(n)+'</div>';let did=S.dests.find(d=>d.node===id)?.id;if(did===S.goal)x.innerHTML+='<div class="goalmark">🎯 目的地</div>';if(mode==="game"){let here=S.players.filter(p=>p.pos===id);here.forEach((p,pi)=>{let q=CFG.icons[p.icon]||CFG.icons[0],t=document.createElement("div");t.className="token"+(here.length>4?" cluster":"");let n=here.length,ang=(-Math.PI/2)+(2*Math.PI*pi/n),rad=n<=1?0:n<=4?20:30;t.style.marginLeft=(Math.cos(ang)*rad)+"px";t.style.marginTop=(Math.sin(ang)*rad)+"px";t.innerHTML=q.image?'<img src="'+q.image+'">':q.emoji;x.appendChild(t)})}}M.appendChild(x)}el.appendChild(M)}}
 
@@ -208,39 +208,60 @@ function next(){S.turn=(S.turn+1)%S.players.length;if(S.turn===0)S.round++;$("gu
 function center(s=true){let p=S.players[S.turn],e=document.querySelector('#maps .cell[data-node="'+CSS.escape(p.pos)+'"]');e?.scrollIntoView({behavior:s?"smooth":"auto",block:"center",inline:"center"})}
 
 let chosenIcons=[];
-function refreshPlayerSetup(){
- const hs=$("humans"),cs=$("cpus"),grid=$("iconChoiceGrid"); if(!hs||!cs||!grid)return;
- let h=Math.max(1,Math.min(8,+hs.value||1)), oldc=Math.max(0,+cs.value||2), maxc=8-h;
- cs.innerHTML=Array.from({length:maxc+1},(_,i)=>'<option value="'+i+'">'+i+'人</option>').join("");
- let c=Math.min(oldc,maxc); cs.value=String(c); let total=h+c;
+function rebuildPlayerSelectors(){
+ const humanSel=$("humans"),cpuSel=$("cpus"),grid=$("iconChoiceGrid");
+ let humans=Math.max(1,Math.min(8,Number(humanSel.value)||1));
+ let previousCpu=Number(cpuSel.value); if(!Number.isFinite(previousCpu))previousCpu=2;
+ let maxCpu=8-humans;
+ cpuSel.innerHTML="";
+ for(let i=0;i<=maxCpu;i++){let o=document.createElement("option");o.value=String(i);o.textContent=i+"人";cpuSel.appendChild(o)}
+ let cpus=Math.min(previousCpu,maxCpu);cpuSel.value=String(cpus);
+ let total=humans+cpus;
  while(chosenIcons.length<total)chosenIcons.push(chosenIcons.length%Math.max(1,CFG.icons.length));
  chosenIcons.length=total;
- grid.innerHTML=Array.from({length:total},(_,i)=>{
-   let who=i<h?'👤 プレイヤー'+(i+1):'🤖 CPU'+(i-h+1);
-   return '<label class="setting"><b>'+who+'</b><select data-player-icon="'+i+'">'+CFG.icons.map((x,j)=>'<option value="'+j+'" '+((chosenIcons[i]??0)===j?'selected':'')+'>'+(x.emoji||"🐟")+' '+x.name+'</option>').join("")+'</select></label>'
- }).join("");
- grid.querySelectorAll("[data-player-icon]").forEach(el=>el.onchange=()=>chosenIcons[+el.dataset.playerIcon]=+el.value);
-}
-$("humans").onchange=refreshPlayerSetup;$("cpus").onchange=refreshPlayerSetup;refreshPlayerSetup();
-
-$("start").onclick=async()=>{
- let humans=+$("humans").value,cpus=+$("cpus").value;
- if(humans+cpus>8){await popup("👥 操作プレイヤー＋CPUは合計8人までです",1200);return}
- S.maps=+$("length").value;S.nodes={};S.edges=[];S.dests=[];S.turn=0;S.round=1;S.remaining=0;S.prev=null;S.moving=false;S.moveMode="normal";S.forcedMove=false;
- gen();
- if(!validate()){await popup("コース生成エラー",1200);return}
- let startPos=node(0,6,6,"normal"),total=humans+cpus;
- if(nb(startPos).length===0){
-   let sp=pk(startPos),candidates=Object.values(S.nodes).filter(n=>n.m===0&&n.id!==startPos&&nb(n.id).length>0);
-   candidates.sort((a,b)=>(Math.abs(a.r-sp.r)+Math.abs(a.c-sp.c))-(Math.abs(b.r-sp.r)+Math.abs(b.c-sp.c)));
-   if(candidates[0])edge(startPos,candidates[0].id);
+ grid.innerHTML="";
+ for(let i=0;i<total;i++){
+   let label=document.createElement("label");label.className="setting";
+   let title=document.createElement("b");title.textContent=i<humans?"👤 プレイヤー"+(i+1):"🤖 CPU"+(i-humans+1);
+   let sel=document.createElement("select");sel.dataset.playerIcon=String(i);
+   CFG.icons.forEach((icon,j)=>{let o=document.createElement("option");o.value=String(j);o.textContent=(icon.emoji||"🐟")+" "+icon.name;if((chosenIcons[i]??0)===j)o.selected=true;sel.appendChild(o)});
+   sel.onchange=()=>{chosenIcons[i]=Number(sel.value)};
+   label.append(title,sel);grid.appendChild(label);
  }
- S.players=Array.from({length:total},(_,i)=>({name:i<humans?"P"+(i+1):"CPU"+(i-humans+1),cpu:i>=humans,icon:chosenIcons[i]??(i%Math.max(1,CFG.icons.length)),pos:startPos,shells:0,goals:0,skip:0}));
- S.goal=S.dests[Math.floor(Math.random()*S.dests.length)].id;
- $("setup").classList.add("hidden");$("game").classList.remove("hidden");render();center(false);
- let d=CFG.destinations[S.goal-1];await popup((d?.emoji||"🎯")+" 最初の目的地<br><b>"+(d?.name||"目的地")+"</b>",1200);
- if(S.players[0]?.cpu)setTimeout(roll,500);
-};
+}
+$("humans").addEventListener("change",rebuildPlayerSelectors);
+$("cpus").addEventListener("change",rebuildPlayerSelectors);
+rebuildPlayerSelectors();
+
+async function startNewGame(){
+ const humans=Number($("humans").value),cpus=Number($("cpus").value),total=humans+cpus;
+ if(!Number.isInteger(humans)||humans<1||!Number.isInteger(cpus)||cpus<0||total<1||total>8){alert("操作プレイヤー＋CPUは合計8人までです");return}
+ $("start").disabled=true;$("start").textContent="🌊 コース生成中…";
+ try{
+   S.maps=Number($("length").value)||1;S.nodes={};S.edges=[];S.dests=[];S.players=[];S.turn=0;S.round=1;S.goal=1;S.remaining=0;S.prev=null;S.moving=false;S.moveMode="normal";S.forcedMove=false;
+   gen();
+   if(!validate())throw new Error("生成した道路が目的地まで接続されていません");
+   let startPos=node(0,6,6,"normal");
+   if(nb(startPos).length===0){
+     let sp=pk(startPos),candidates=Object.values(S.nodes).filter(n=>n.m===0&&n.id!==startPos&&nb(n.id).length>0);
+     candidates.sort((x,y)=>(Math.abs(x.r-sp.r)+Math.abs(x.c-sp.c))-(Math.abs(y.r-sp.r)+Math.abs(y.c-sp.c)));
+     if(!candidates.length)throw new Error("スタート地点を道路へ接続できません");
+     let target=candidates[0],cur=startPos;
+     while(cur!==target.id){let q=pk(cur),dr=Math.sign(target.r-q.r),dc=Math.sign(target.c-q.c),nr=q.r+(dr||0),nc=q.c+(dr?0:dc),next=node(0,nr,nc,"normal");edge(cur,next);cur=next}
+   }
+   S.players=Array.from({length:total},(_,i)=>({name:i<humans?"P"+(i+1):"CPU"+(i-humans+1),cpu:i>=humans,icon:Number(chosenIcons[i]??(i%Math.max(1,CFG.icons.length))),pos:startPos,shells:0,goals:0,skip:0}));
+   S.goal=S.dests[Math.floor(Math.random()*S.dests.length)].id;
+   $("home").classList.add("hidden");$("game").classList.remove("hidden");
+   render();center(false);
+   let d=CFG.destinations[S.goal-1];await popup((d?.emoji||"🎯")+" 最初の目的地<br><b>"+(d?.name||"目的地")+"</b>",900);
+   if(S.players[0]?.cpu)setTimeout(roll,400);
+ }catch(err){
+   console.error(err);alert("ゲーム開始エラー："+err.message);
+ }finally{
+   $("start").disabled=false;$("start").textContent="🎲 ゲームスタート！";
+ }
+}
+$("start").addEventListener("click",startNewGame);
 function validate(){if(S.dests.length!==S.maps*3)return false;let root=S.dests[0].node;if(!root)return false;return S.dests.every(d=>!!path(root,d.node))}
 $("helpBtn").onclick=showHelp;$("helpClose").onclick=()=>$("helpModal").classList.remove("show");$("helpModal").onclick=e=>{if(e.target===$("helpModal"))$("helpModal").classList.remove("show")};if(CFG.background)document.body.style.backgroundImage='url("'+CFG.background+'")';})();<\/script></body></html>`;
 }
