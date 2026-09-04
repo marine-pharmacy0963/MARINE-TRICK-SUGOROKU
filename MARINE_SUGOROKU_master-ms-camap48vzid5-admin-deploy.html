@@ -70,7 +70,7 @@ function publicHTML(){
 <div class="box"><div id="distance" class="distance">⬆️ 🎯まで最短 - マス</div><button id="roll" class="roll">🎲 サイコロをふる</button><div id="guide" class="distance" style="font-size:14px"></div></div>
 <div class="mapShell" id="mapShell"><div id="maps" class="maps"></div></div><div class="box noPrint"><button id="pdf" class="btn">📄 このコースをPDF出力</button></div></section>
 <div id="ovModal" class="modal"><div class="modalbox"><button id="closeOv" class="btn">閉じる</button><div id="ovMaps" class="maps overview"></div></div></div><div id="printPages" class="hidden"></div></div>
-<script>const CFG=${data};</script><script>
+<script>const CFG=${data};<\/script><script>
 "use strict";(()=>{const $=id=>document.getElementById(id),R=7,C=13,T={normal:"",shell1:"🐚",shell2:"🐚2",shell3:"🐚3",forward:"⏩",back:"⏪",rest:"💤",event:"✨"},D=[[-1,0],[1,0],[0,-1],[0,1]];let S={maps:1,nodes:{},edges:[],dests:[],players:[],turn:0,round:1,goal:1,remaining:0,prev:null,moving:false};
 const k=(m,r,c)=>m+":"+r+":"+c,pk=x=>{let a=x.split(":").map(Number);return{m:a[0],r:a[1],c:a[2]}},eid=(a,b)=>[a,b].sort().join("|");
 function node(m,r,c,t="normal"){let x=k(m,r,c);if(!S.nodes[x])S.nodes[x]={id:x,m,r,c,type:t};return x}function edge(a,b){let e=eid(a,b);if(a!==b&&!S.edges.includes(e))S.edges.push(e)}function nb(x){let z=[];for(let e of S.edges){let[a,b]=e.split("|");if(a===x)z.push(b);else if(b===x)z.push(a)}return z}
@@ -89,7 +89,7 @@ function next(){S.turn=(S.turn+1)%S.players.length;if(S.turn===0)S.round++;$("gu
 function center(s=true){let p=S.players[S.turn],e=document.querySelector('#maps .cell[data-node="'+CSS.escape(p.pos)+'"]');e?.scrollIntoView({behavior:s?"smooth":"auto",block:"center",inline:"center"})}
 function validate(){if(S.dests.length!==S.maps*3)return false;let root=S.dests[0].node;return S.dests.every(d=>path(root,d.node))}
 $("picon").innerHTML=CFG.icons.map((x,i)=>'<option value="'+i+'">'+x.emoji+" "+x.name+"</option>").join("");$("start").onclick=()=>{gen();if(!validate())return alert("コース生成エラー");$("home").classList.add("hidden");$("game").classList.remove("hidden");setTimeout(()=>center(false),50)};$("roll").onclick=roll;$("mypos").onclick=()=>center();$("overview").onclick=()=>{renderMap($("ovMaps"),"overview");$("ovModal").classList.add("open")};$("closeOv").onclick=()=>$("ovModal").classList.remove("open");$("save").onclick=()=>{localStorage.setItem("marineSugorokuGame",JSON.stringify(S));alert("保存しました")};$("pdf").onclick=()=>{$("printPages").innerHTML="";for(let m=0;m<S.maps;m++){let p=document.createElement("div");p.className="printPage";let z=document.createElement("div");z.className="maps";p.appendChild(z);$("printPages").appendChild(p);renderMap(z,"print",m)}$("printPages").classList.remove("hidden");window.print();$("printPages").classList.add("hidden")};
-if(CFG.background)document.body.style.backgroundImage='url("'+CFG.background+'")';})();</script></body></html>`;
+if(CFG.background)document.body.style.backgroundImage='url("'+CFG.background+'")';})();<\/script></body></html>`;
 }
 $("loginBtn").onclick=()=>{if($("pw").value===cfg.password)$("login").classList.add("hidden");else $("loginMsg").textContent="パスワードが違います"};
 $("pw").onkeydown=e=>{if(e.key==="Enter")$("loginBtn").click()};
