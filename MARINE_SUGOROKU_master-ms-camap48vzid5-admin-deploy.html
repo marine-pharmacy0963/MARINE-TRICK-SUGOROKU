@@ -1,13 +1,13 @@
 <!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MARINE SUGOROKU MASTER v55 FULL AUDIT</title><style>
 *{box-sizing:border-box}:root{--a:#087fc0;--b:#0fa3c8;--line:#9bdcf3;--soft:#edfaff;--ink:#12364a}body{margin:0;min-height:100vh;background:#eaf8ff center/cover fixed no-repeat;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;color:var(--ink)}body:before{content:"";position:fixed;inset:0;background:rgba(232,249,255,.38);z-index:-1}main{max-width:1120px;margin:auto;padding:14px}.box,.item{background:rgba(255,255,255,.95);border:2px solid var(--line);border-radius:18px;padding:14px;margin:11px 0}.item{border-width:1px}.row{display:flex;gap:8px;flex-wrap:wrap}.row>*{flex:1;min-width:145px}input,textarea,select{width:100%;padding:9px;margin:4px 0;border:1px solid var(--line);border-radius:9px;background:#fff}textarea{min-height:68px}button,.filebtn{display:inline-block;border:0;border-radius:10px;padding:10px 12px;margin:3px;background:var(--a);color:#fff;font-weight:800;cursor:pointer}.good{background:#21875e}.danger{background:#b54c4c}.secondary{background:#607d8b}.small{font-size:12px;color:#557484;line-height:1.55}.status{font-weight:800;color:#18704f}.hidden{display:none!important}.pill{display:inline-block;padding:4px 8px;border-radius:999px;background:#e4f7ff;font-size:12px;font-weight:800;margin:2px}.top{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.top b{flex:1}.thumb{width:74px;height:74px;object-fit:contain;background:var(--soft);border-radius:12px}#lock{position:fixed;inset:0;z-index:9999;background:linear-gradient(155deg,#dff7ff,#79c9ef);display:flex;align-items:center;justify-content:center;padding:18px}#lock>div{width:min(430px,100%);background:#fff;border:2px solid #72c9ef;border-radius:22px;padding:22px;box-shadow:0 20px 60px #1678a544}h1,h2{color:#0878bd}details{border-top:1px solid #d8eef7;padding-top:8px;margin-top:8px}summary{font-weight:900;cursor:pointer}
-</style></head><body><div style="position:sticky;top:0;z-index:9999;background:#071b33;color:white;text-align:center;padding:8px;font-weight:900">BUILD v55</div>
+</style></head><body><div style="position:sticky;top:0;z-index:9999;background:#071b33;color:white;text-align:center;padding:8px;font-weight:900">BUILD v56</div>
 <div id="lock"><div><h2>🔐 MARINE SUGOROKU MASTER</h2><div class="small">管理パスワードを入力してください。</div><input id="pw" type="password" inputmode="numeric" autocomplete="current-password"><button type="button" id="loginBtn">管理画面を開く</button><div id="loginMsg" class="small"></div></div></div>
 <script>
 (function(){
  function go(){var p=document.getElementById("pw"),m=document.getElementById("loginMsg"),l=document.getElementById("lock"),a=document.getElementById("app");if(!p||!l||!a)return;if(p.value==="3103"){l.classList.add("hidden");a.classList.remove("hidden");try{sessionStorage.setItem("marine_sugoroku_master_v2_login","1")}catch(e){}}else if(m){m.textContent="パスワードが違います"}}
  document.addEventListener("DOMContentLoaded",function(){var b=document.getElementById("loginBtn"),p=document.getElementById("pw");if(b){b.onclick=go;b.addEventListener("touchend",function(e){e.preventDefault();go()},{passive:false})}if(p)p.addEventListener("keydown",function(e){if(e.key==="Enter")go()});try{if(sessionStorage.getItem("marine_sugoroku_master_v2_login")==="1"){document.getElementById("lock").classList.add("hidden");document.getElementById("app").classList.remove("hidden")}}catch(e){}});
 })();
-</script><main id="app" class="hidden"><h1>🎲 MARINE SUGOROKU MASTER v55 FULL AUDIT</h1><div class="small">ランダム目的地・貝殻ポイント・連続ゴール・ゴール判定3方式・途中セーブ・こどもモード対応｜BUILD v55 / MAP ENGINE 2・7×13横長MAPを縦連結・中央ハブ・単一道路データ <span id="status" class="status"></span></div>
+</script><main id="app" class="hidden"><h1>🎲 MARINE SUGOROKU MASTER v55 FULL AUDIT</h1><div class="small">ランダム目的地・貝殻ポイント・連続ゴール・ゴール判定3方式・途中セーブ・こどもモード対応｜BUILD v56 / MAP ENGINE 3・7×13横長MAPを縦連結・中央ハブ・単一道路データ <span id="status" class="status"></span></div>
 <div class="box"><h2>🌊 背景同期</h2><div class="small">同じ場所の marine-theme.json を自動読込します。</div><label class="filebtn">marine-theme.json<input id="themeFile" type="file" accept=".json" hidden></label><div id="themeMsg" class="small"></div></div>
 <div class="box"><h2>💾 保存・入出力</h2><button id="saveNow" class="good">今すぐ保存</button><button id="backup">MASTERバックアップ</button><label class="filebtn">JSON読込<input id="restore" type="file" accept=".json" hidden></label><button id="exportData">ゲーム設定JSON</button><span id="updated" class="small"></span></div>
 <div class="box"><h2>⚙️ ゲーム基本設定</h2><div class="row"><label>タイトル<input id="title"></label><label>最大人数<input id="maxPlayers" type="number" min="1" max="4"></label><label>継続ラウンド数<input id="rounds" type="number" min="1" max="99"></label></div><label>説明<textarea id="desc"></textarea></label><div class="row"><label>ゲーム方式<select id="gameMode"><option value="destination">ランダム目的地</option><option value="classic">通常ゴール</option></select></label><label>ゴール判定<select id="goalRule"><option value="pass">通り過ぎOK</option><option value="exactStay">ピッタリ・超過はその場</option><option value="bounce">ピッタリ・超過は折り返し</option></select></label><label>サイコロ<select id="diceSides"><option>6</option><option>4</option><option>8</option></select></label></div></div>
@@ -105,7 +105,7 @@ return `<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="v
 .buildbadge{display:inline-block;background:#071b33;color:#fff;border-radius:999px;padding:7px 12px;font-size:13px;font-weight:900;letter-spacing:.08em;margin:4px 0 10px;box-shadow:0 3px 8px rgba(0,0,0,.18)}
 .gamepdf{margin-top:14px;padding-top:12px;border-top:1px solid #b8dce8;text-align:center}.gamepdf small{display:block;margin-top:6px;color:#527584}
 </style></head><body><div class="wrap">
-<div class="buildbadge">BUILD v55</div><div id="setup"><div class="hero"><div class="bubble">🐚 海中周遊すごろく</div><h1>🌊 MARINE SUGOROKU</h1><p>どこが次の目的地か分からない！貝殻を集めて海をめぐろう</p></div>
+<div class="buildbadge">BUILD v56</div><div id="setup"><div class="hero"><div class="bubble">🐚 海中周遊すごろく</div><h1>🌊 MARINE SUGOROKU</h1><p>どこが次の目的地か分からない！貝殻を集めて海をめぐろう</p></div>
 <div class="card"><h2>🎮 あそびかたを選ぶ</h2><div class="grid">
 <div class="choice"><b>👥 人間プレイヤー</b><select id="human"><option>1</option><option>2</option><option>3</option><option>4</option></select></div>
 <div class="choice"><b>🤖 CPU</b><select id="cpu"><option>0</option><option selected>1</option><option>2</option><option>3</option></select></div>
@@ -115,13 +115,28 @@ return `<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="v
 <div class="choice"><b>🔥 延長戦</b><select id="extension"><option value="ask" selected>ゴール0回なら選ぶ</option><option value="auto">自動で延長</option><option value="off">延長なし</option></select></div>
 </div></div>
 <div class="card rules"><h2>📖 ルール</h2><b>🎯 ランダムに決まる目的地をめざそう！</b><br>🐚 通常マスや目的地で貝殻をGET。目的地に着いてもゲームは続き、次の目的地がランダムに決まります。<br>🌊 進む・戻る・休みなどのイベントあり。最後に貝殻が一番多い人が勝ち！<br>👆 分岐では光ったマスをタップして進めます。</div>
-<div class="card"><div class="actions"><button id="start" class="good">🎲 ゲームスタート！</button><button id="resume" class="secondary">💾 つづきから</button></div><div class="small">MARINE SUGOROKU MAP ENGINE 2</div><div id="setupmsg"></div></div></div>
-<div id="game" class="hidden"><div class="buildbadge">BUILD v55</div><div class="top"><div id="target" class="target"></div><div id="round"></div><div id="chips" class="chips"></div></div><div class="card"><div id="turn" class="turnhero"></div><div id="msg"></div><div class="actions"><button id="homepos" class="secondary">📍 自分の位置</button><button id="whole" class="secondary">🗺️ 全体マップ</button><button id="saveGame" class="secondary">💾 セーブ</button></div></div><div class="card mapcard"><div class="maphead"><div id="navinfo" class="turnhero"></div><div class="diceonly"><button id="dice">🎲 サイコロをふる</button></div></div><div class="legend"><span>🎯 目的地</span><span>🐚 貝殻</span><span>⏩ +2</span><span>⏪ -2</span><span>💤 休み</span><span>🌀 ショートカット</span></div><div class="mapwrap"><div id="map" class="map"></div></div><div class="gamepdf"><button id="gamePdf" class="secondary">🖨️ このコースをPDF出力</button><small>いま遊んでいるこのマップを、そのまま91枠ごとに1ページで印刷します。</small></div></div></div></div>
+<div class="card"><div class="actions"><button id="start" class="good">🎲 ゲームスタート！</button><button id="resume" class="secondary">💾 つづきから</button></div><div class="small">MARINE SUGOROKU MAP ENGINE 3</div><div id="setupmsg"></div></div></div>
+<div id="game" class="hidden"><div class="buildbadge">BUILD v56</div><div class="top"><div id="target" class="target"></div><div id="round"></div><div id="chips" class="chips"></div></div><div class="card"><div id="turn" class="turnhero"></div><div id="msg"></div><div class="actions"><button id="homepos" class="secondary">📍 自分の位置</button><button id="whole" class="secondary">🗺️ 全体マップ</button><button id="saveGame" class="secondary">💾 セーブ</button></div></div><div class="card mapcard"><div class="maphead"><div id="navinfo" class="turnhero"></div><div class="diceonly"><button id="dice">🎲 サイコロをふる</button></div></div><div class="legend"><span>🎯 目的地</span><span>🐚 貝殻</span><span>⏩ +2</span><span>⏪ -2</span><span>💤 休み</span><span>🌀 ショートカット</span></div><div class="mapwrap"><div id="map" class="map"></div></div><div class="gamepdf"><button id="gamePdf" class="secondary">🖨️ このコースをPDF出力</button><small>いま遊んでいるこのマップを、そのまま91枠ごとに1ページで印刷します。</small></div></div></div></div>
 <div id="modal" class="modal hidden"><div class="box"><div id="mt" class="big"></div><div id="mx"></div><div id="mb"></div></div></div>
 <script>
-var DATA=${payload},SAVE="marine_sugoroku_v55",G=null,busy=false,iconLibrary=(DATA.playerIcons&&DATA.playerIcons.length?DATA.playerIcons:[{id:"i0",name:"アイコン 1",kind:"emoji",src:"🐠"},{id:"i1",name:"アイコン 2",kind:"emoji",src:"🐙"},{id:"i2",name:"アイコン 3",kind:"emoji",src:"🐡"},{id:"i3",name:"アイコン 4",kind:"emoji",src:"🦀"}]),icons=iconLibrary.map(function(x){return x.src}),selectedPlayerIcons=[],nodes=[],edges=[],ROWS=21,COLS=13;
+var DATA=${payload},SAVE="marine_sugoroku_v56",G=null,busy=false,iconLibrary=(DATA.playerIcons&&DATA.playerIcons.length?DATA.playerIcons:[{id:"i0",name:"アイコン 1",kind:"emoji",src:"🐠"},{id:"i1",name:"アイコン 2",kind:"emoji",src:"🐙"},{id:"i2",name:"アイコン 3",kind:"emoji",src:"🐡"},{id:"i3",name:"アイコン 4",kind:"emoji",src:"🦀"}]),icons=iconLibrary.map(function(x){return x.src}),selectedPlayerIcons=[],nodes=[],edges=[],ROWS=21,COLS=13;
 function $(x){return document.getElementById(x)}
-function adj(n){var a=[];edges.forEach(function(e){if(e[0]==n)a.push(e[1]);else if(e[1]==n)a.push(e[0])});return a}
+function edgeKey(a,b){return a<b?a+"-"+b:b+"-"+a}
+function adj(n){var a=[];edges.forEach(function(e){if(e[0]===n)a.push(e[1]);else if(e[1]===n)a.push(e[0])});return a}
+function hasEdge(a,b){var k=edgeKey(a,b);return edges.some(function(e){return edgeKey(e[0],e[1])===k})}
+function validateGraph(){
+ var on=nodes.filter(function(n){return n.on}),bad=[],isolated=[];
+ edges=edges.filter(function(e){
+   var a=nodes[e[0]],b=nodes[e[1]],ok=!!(a&&b&&a.on&&b.on);
+   if(!ok)bad.push(e);
+   return ok
+ });
+ on.forEach(function(n){if(adj(n.id).length===0)isolated.push(n.id)});
+ var start=(G&&G.players&&G.players[0]?G.players[0].pos:45),seen={},q=[start];seen[start]=1;
+ while(q.length){var x=q.shift();adj(x).forEach(function(y){if(!seen[y]){seen[y]=1;q.push(y)}})}
+ var unreachable=(G&&G.destinations||dests||[]).filter(function(id){return !seen[id]});
+ return {ok:bad.length===0&&isolated.length===0&&unreachable.length===0,bad:bad,isolated:isolated,unreachable:unreachable}
+}
 function gid(r,c){return r*COLS+c}
 for(var r=0;r<ROWS;r++)for(var cc=0;cc<COLS;cc++){var i=gid(r,cc);nodes.push({id:i,x:4+cc*(92/12),y:2+r*(96/20),on:false,type:"通常",shells:0,label:"",u:false,d:false,l:false,r:false})}
 function playerIconMarkup(it,sz){sz=sz||44;if(!it)return "🐠";return it.kind==="image"?'<img src="'+it.src+'" style="width:'+sz+'px;height:'+sz+'px;object-fit:contain">':it.src}
@@ -132,7 +147,7 @@ function playerIconValue(){var a=DATA.playerIcons||[],i=+$("playerIcon").value,x
 var FIXED_DEST=[45,15,75,136,106,166,227,197,257],dests=[];
 function coursePages(v){return v==="short"?1:v==="long"?3:2}
 function snapshotMap(){if(!G)return;G.mapNodes=nodes.map(function(n){return{id:n.id,on:n.on,type:n.type,shells:n.shells,label:n.label,destIndex:n.destIndex,pageLink:n.pageLink,u:n.u,d:n.d,l:n.l,r:n.r}});G.edges=edges.map(function(e){return[e[0],e[1]]})}
-function restoreMap(){if(!G||!G.mapNodes||!G.edges)return false;G.mapNodes.forEach(function(z){var n=nodes[z.id];if(n)Object.keys(z).forEach(function(k){n[k]=z[k]})});edges=G.edges.map(function(e){return[e[0],e[1]]});dests=(G.destinations||[]).slice();return true}
+function restoreMap(){if(!G||!G.mapNodes||!G.edges)return false;nodes.forEach(function(n){n.on=false;n.u=n.d=n.l=n.r=false});G.mapNodes.forEach(function(z){var n=nodes[z.id];if(n)Object.keys(z).forEach(function(k){n[k]=z[k]})});edges=G.edges.map(function(e){return[+e[0],+e[1]]});dests=(G.destinations||[]).slice();return validateGraph().ok}
 function randomizeNodes(courseChoice){
  var pages=coursePages(courseChoice),SLOTS=91,total=pages*SLOTS,target=pages*55;
  nodes.forEach(function(x){x.on=false;x.u=x.d=x.l=x.r=false;x.type="通常";x.shells=0;x.label="";x.destIndex=undefined;x.pageLink=undefined});edges=[];
@@ -151,7 +166,9 @@ function randomizeNodes(courseChoice){
  active.slice().forEach(function(i){localN(i).forEach(function(j){if(used[j]&&i<j&&!EDGES[key(i,j)]&&degree(i)<3&&degree(j)<3&&rnd(9000+i+j)%100<3)edge(i,j)})});
  active.forEach(function(i){if(nodes[i].type==="目的地")return;var z=rnd(11000+i);if(z%100<22){nodes[i].type="貝殻";nodes[i].shells=1+((z>>>8)%5);nodes[i].label="🐚"+nodes[i].shells}var e=rnd(13000+i)%100;if(e<4){nodes[i].type="進む";nodes[i].label="進む"}else if(e<7){nodes[i].type="戻る";nodes[i].label="戻る"}else if(e<9){nodes[i].type="休み";nodes[i].label="休み"}});
  edges=[];Object.keys(EDGES).forEach(function(k){var z=(k.charAt(0)==="P"?k.slice(1):k).split("-").map(Number);edges.push(z)});
- G.mapPages=pages;G.mapSlots=SLOTS;G.courseSize=courseChoice;G.destinations=dests.slice();snapshotMap();return dests.slice()
+ G.mapPages=pages;G.mapSlots=SLOTS;G.courseSize=courseChoice;G.destinations=dests.slice();
+ var audit=validateGraph();if(!audit.ok)throw new Error("マップ接続検査NG isolated="+audit.isolated.join(",")+" unreachable="+audit.unreachable.join(","));
+ snapshotMap();return dests.slice()
 }
 function dist(a,b){var q=[[a,0]],seen={};seen[a]=1;while(q.length){var z=q.shift();if(z[0]===b)return z[1];adj(z[0]).forEach(function(n){if(!seen[n]){seen[n]=1;q.push([n,z[1]+1])}})}return 999}
 function shortestPath(a,b){var q=[a],prev={};prev[a]=-1;while(q.length){var x=q.shift();if(x===b)break;adj(x).forEach(function(n){if(prev[n]===undefined){prev[n]=x;q.push(n)}})}if(prev[b]===undefined)return[];var path=[],z=b;while(z!==-1){path.push(z);z=prev[z]}return path.reverse()}
@@ -162,7 +179,7 @@ function chooseNextDestination(prev){var a=(G.destinations||dests||[]).filter(fu
 function saveGameState(){try{if(G){snapshotMap();localStorage.setItem(SAVE,JSON.stringify(G))}}catch(e){console.error("save",e)}}
 function loadGameState(){try{return JSON.parse(localStorage.getItem(SAVE)||"null")}catch(e){return null}}
 function resume(){var z=loadGameState();if(!z){alert("保存データがありません");return}G=z;if(!restoreMap()){alert("保存マップを復元できません");return}$("setup").classList.add("hidden");$("game").classList.remove("hidden");draw();beginTurn()}
-function start(){try{G={mapPages:1,mapSlots:91};var choice=$("courseSize").value||"middle",generatedDests=randomizeNodes(choice);var h=+$("human").value||1,c=+$("cpu").value||0,ps=[];if(!iconLibrary||!iconLibrary.length)iconLibrary=[{id:"i0",name:"アイコン1",kind:"emoji",src:"🐠"},{id:"i1",name:"アイコン2",kind:"emoji",src:"🐙"}];for(var i=0;i<h+c;i++){var ii=i<h?(selectedPlayerIcons[i]!==undefined?selectedPlayerIcons[i]:i):(i%iconLibrary.length);ps.push({icon:iconLibrary[ii%iconLibrary.length],cpu:i>=h,pos:45,shells:0,skip:0,goals:0,streak:0})}G.players=ps;G.turn=0;G.round=1;G.max=+$("rounds").value||20;G.mode=$("mode").value;G.goalrule=$("goalrule").value;G.diceSides=+$("diceSides").value||6;G.extension=$("extension").value;G.totalGoals=0;G.extended=false;var candidates=generatedDests.filter(function(x){return x!==45});G.target=candidates.length?candidates[Math.floor(Math.random()*candidates.length)]:generatedDests[0];$("setup").classList.add("hidden");$("game").classList.remove("hidden");saveGameState();draw();beginTurn()}catch(e){console.error(e);var m=$("setupmsg");if(m)m.textContent="ゲーム開始エラー: "+e.message;else alert("ゲーム開始エラー: "+e.message)}}
+function start(){try{G={mapPages:1,mapSlots:91};var choice=$("courseSize").value||"middle",generatedDests=randomizeNodes(choice);var h=+$("human").value||1,c=+$("cpu").value||0,ps=[];if(!iconLibrary||!iconLibrary.length)iconLibrary=[{id:"i0",name:"アイコン1",kind:"emoji",src:"🐠"},{id:"i1",name:"アイコン2",kind:"emoji",src:"🐙"}];for(var i=0;i<h+c;i++){var ii=i<h?(selectedPlayerIcons[i]!==undefined?selectedPlayerIcons[i]:i):(i%iconLibrary.length);ps.push({icon:iconLibrary[ii%iconLibrary.length],cpu:i>=h,pos:45,shells:0,skip:0,goals:0,streak:0})}G.players=ps;var startPos=45;G.players.forEach(function(p){p.pos=startPos});if(adj(startPos).length===0)throw new Error("開始マス45に道路がありません");G.turn=0;G.round=1;G.max=+$("rounds").value||20;G.mode=$("mode").value;G.goalrule=$("goalrule").value;G.diceSides=+$("diceSides").value||6;G.extension=$("extension").value;G.totalGoals=0;G.extended=false;var candidates=generatedDests.filter(function(x){return x!==45});G.target=candidates.length?candidates[Math.floor(Math.random()*candidates.length)]:generatedDests[0];$("setup").classList.add("hidden");$("game").classList.remove("hidden");saveGameState();draw();beginTurn()}catch(e){console.error(e);var m=$("setupmsg");if(m)m.textContent="ゲーム開始エラー: "+e.message;else alert("ゲーム開始エラー: "+e.message)}}
 function tileVisual(n){
  var A=DATA.tileAssets||{},x=null;
  if(n.type==="目的地"){
@@ -193,10 +210,10 @@ function nodeMarkup(n,choices){
 function drawMap(choices){
  var map=$("map");if(!map)return;
  var html='<svg class="roads" viewBox="0 0 100 100" preserveAspectRatio="none">';
- Object.keys(G.mapEdges||{}).forEach(function(k){
-   if(k.charAt(0)==="P")return;
-   var z=k.split("-"),aa=nodes[+z[0]],bb=nodes[+z[1]];
-   if(aa&&bb&&aa.on&&bb.on)html+='<line x1="'+aa.x+'" y1="'+aa.y+'" x2="'+bb.x+'" y2="'+bb.y+'"/>'
+ edges.forEach(function(e){
+   var aa=nodes[e[0]],bb=nodes[e[1]];
+   if(!aa||!bb||!aa.on||!bb.on)return;
+   html+='<line data-edge="'+e[0]+'-'+e[1]+'" x1="'+aa.x+'" y1="'+aa.y+'" x2="'+bb.x+'" y2="'+bb.y+'"/>'
  });
  html+='</svg>';
  nodes.forEach(function(n){if(n.on)html+=nodeMarkup(n,choices)});
@@ -222,7 +239,7 @@ function move(p,left,trail,bounceQueue){
  trail=trail||[];bounceQueue=bounceQueue||[];
  if(left<=0){land(p);return}
  if(bounceQueue.length){var forced=bounceQueue.shift();p.pos=forced;draw();setTimeout(function(){move(p,left-1,trail,bounceQueue)},p.cpu?1000:350);return}
- var choices=adj(p.pos);if(!choices.length){pop("⚠️ 行き止まり","進める道がありません。",[{t:"ターン終了",f:function(){closePop();endTurn()}}]);return}
+ var choices=adj(p.pos);if(!choices.length){pop("⚠️ 接続エラー","このマスから道路データを取得できません（位置 "+p.pos+"）。ゲームを止めました。",[{t:"閉じる",f:closePop}]);busy=false;return}
  var ordered=preferredChoices(p.pos,choices),auto=p.cpu||G.mode==="auto";
  function stepTo(nx){var prev=p.pos;trail.push(prev);p.pos=nx;draw();if(p.pos===G.target){if(G.goalrule==="pass"){setTimeout(function(){reachedGoal(p)},250);return}if(G.goalrule==="bounce"&&left-1>0){var back=trail.slice().reverse();setTimeout(function(){move(p,left-1,trail,back)},p.cpu?1000:350);return}}setTimeout(function(){move(p,left-1,trail,bounceQueue)},p.cpu?1000:120)}
  if(auto){stepTo(ordered[0]);return}
