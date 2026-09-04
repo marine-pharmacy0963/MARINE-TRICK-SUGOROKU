@@ -23,7 +23,8 @@ details{border-top:1px solid #def;padding-top:8px;margin-top:8px}summary{cursor:
 <div class="box"><h2>🎲 ボード設定</h2><div class="row"><label>タイトル<input id="title"></label><label>推奨人数<input id="players" value="1〜4人"></label></div><label>説明<textarea id="desc"></textarea></label><label>ボード背景画像<input id="boardImg" type="file" accept="image/*"></label><div id="boardPreview"></div></div>
 <div class="box"><h2>🟦 マス編集</h2><div class="small">マスは追加・削除・順番変更可能。通常、進む、戻る、休み、クイズ、イベントなどを自由に設定できます。</div><div id="spaces"></div><button id="add">＋ マス追加</button></div>
 <div class="box"><h2>📦 実装用書き出し</h2><div class="small">公開用 index.html はサイコロ、現在位置、マス効果、途中保存・再開に対応。</div><button id="export">sugoroku-data.json</button><button id="exportIndex" class="good">公開用 index.html を書き出す</button></div>
-</main><script>const STORAGE="marine_sugoroku_master_v1",THEMEKEY="marine_theme_cache_v1";
+</main><script>const $=id=>document.getElementById(id);
+const STORAGE="marine_sugoroku_master_v1",THEMEKEY="marine_theme_cache_v1";
 let data={title:"MARINE SUGOROKU",players:"1〜4人",desc:"",boardImage:"",spaces:[]},timer;function state(){data.title=$("title").value;data.players=$("players").value;data.desc=$("desc").value;return{schema:"marine-sugoroku-master-v1",updated:new Date().toISOString(),...data}}
 function save(show=false){try{localStorage.setItem(STORAGE,JSON.stringify(state()));if(show)$("status").textContent="保存しました ✓"}catch(e){alert("保存容量を超えた可能性があります")}}function autos(){clearTimeout(timer);timer=setTimeout(()=>save(),300)}
 function load(){try{let x=JSON.parse(localStorage.getItem(STORAGE)||"null");if(x)data=x}catch(e){};$("title").value=data.title||"";$("players").value=data.players||"";$("desc").value=data.desc||"";render()}
@@ -62,7 +63,7 @@ $("dice").onclick=()=>{if(!DATA.spaces.length)return;let n=1+Math.floor(Math.ran
 }
 $("exportIndex").onclick=()=>dl("index.html",makeSugorokuIndex(),"text/html;charset=utf-8");
 
-const PW="3103", $=id=>document.getElementById(id);
+const PW="3103";
 function dl(n,t,type="application/json;charset=utf-8"){let b=new Blob([t],{type}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=n;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)}
 function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function uid(p){return p+"_"+Date.now().toString(36)+"_"+Math.random().toString(36).slice(2,7)}
