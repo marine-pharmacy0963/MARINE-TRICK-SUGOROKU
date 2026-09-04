@@ -38,6 +38,16 @@ main{padding:12px;max-width:1500px;margin:auto}.panel{background:#073b55dd;borde
  .print-page:last-child{break-after:auto}.print-page .map{--cell:18mm;--gap:1mm;background:#dff6ff}
  .print-page .cell{border-color:#aacbd5;background:#e9f8fc}.print-page .cell.active{background:#d4f0f7}.print-page .road{background:#3c8fa8}.print-page .tokens{display:none}
 }
+
+.home-screen{background:linear-gradient(#eefdff,#dff8ff);color:#0a3b55;border:4px solid #bdeafa}
+.home-screen .card{background:#fff;color:#0a3b55;border:3px solid #c5ebf6}.home-screen .field label{color:#0a3b55;font-size:18px;font-weight:900}
+.home-screen select{background:#f4f4f4!important;color:#111!important;border:2px solid #a7dff0!important;font-size:18px}
+.rules{margin-top:16px;line-height:1.8}.start-btn{display:block;margin:18px auto 4px;background:#08ae70;color:white;font-size:22px;padding:16px 26px;box-shadow:0 7px 0 #087a52}
+.turn-panel{text-align:center}.distance-big{text-align:center;font-size:22px;font-weight:900}.roll-big{font-size:22px;padding:17px 25px;background:#168ccb;color:white}
+.move-guide{text-align:center;margin-top:10px;color:#c8edf7;font-weight:800}.cell.move-choice{outline:5px solid #ffe66d;box-shadow:0 0 0 7px #ff9f1c88,0 0 22px #fff36c;animation:pulseChoice .75s infinite alternate;cursor:pointer}
+.cell.current-player{outline:5px solid #ff6b6b;box-shadow:0 0 22px #ff6b6b}
+@keyframes pulseChoice{to{transform:scale(1.06)}}
+@media(max-width:700px){.home-screen{border-radius:0}.home-screen .setup{grid-template-columns:1fr 1fr}.distance-big{font-size:19px}}
 </style>
 </head>
 <body>
@@ -64,24 +74,36 @@ main{padding:12px;max-width:1500px;margin:auto}.panel{background:#073b55dd;borde
 </header>
 
 <main>
-<section class="panel no-print">
+<section id="homeScreen" class="panel no-print home-screen">
+ <h1 style="margin:4px 0 14px">🎮 あそびかたを選ぶ</h1>
  <div class="setup">
-  <div class="field"><label>コース</label><select id="courseLength"><option value="1">SHORT / 1MAP</option><option value="2">MIDDLE / 2MAP</option><option value="3">LONG / 3MAP</option></select></div>
-  <div class="field"><label>プレイヤー人数</label><select id="playerCount"><option>1</option><option selected>2</option><option>3</option><option>4</option></select></div>
-  <div class="field"><label>こどもモード</label><select id="kidsMode"><option value="0">OFF</option><option value="1">ON</option></select></div>
-  <div class="field"><label>目的地ルール</label><select id="goalRule"><option value="random">ランダム目的地</option><option value="sequence">番号順</option></select></div>
+  <div class="card field"><label>👥 プレイヤー人数</label><select id="playerCount"><option>1</option><option selected>2</option><option>3</option><option>4</option></select></div>
+  <div class="card field"><label>🗺️ コース</label><select id="courseLength"><option value="1">SHORT / 1MAP</option><option value="2">MIDDLE / 2MAP</option><option value="3">LONG / 3MAP</option></select></div>
+  <div class="card field"><label>🧒 こどもモード</label><select id="kidsMode"><option value="1" selected>ON</option><option value="0">OFF</option></select></div>
+  <div class="card field"><label>🎯 目的地</label><select id="goalRule"><option value="random">ランダム</option><option value="sequence">番号順</option></select></div>
  </div>
  <div id="playerSetup" class="admin-grid" style="margin-top:10px"></div>
+ <div class="card rules"><h2>📖 ルール</h2><p>🎯 ランダムに決まる目的地をめざそう！<br>🐚 マスで貝殻をGET。<br>🌊 進む・戻る・休みなどのイベントあり。<br>👆 サイコロのあと、光ったマスを1マスずつタップして進みます。</p></div>
+ <button class="btn start-btn" id="startGameBtn">🎲 ゲームスタート！</button>
 </section>
 
+<div id="gameScreen" class="hidden">
 <section class="panel no-print">
- <div class="status"><span id="turnStatus">未開始</span><span id="goalStatus">目的地: -</span><span id="distanceStatus">最短距離: -</span><span id="roundStatus">Round 0</span></div>
- <div class="dice-area" style="margin-top:10px"><div id="dice" class="dice">⚄</div><button class="btn warn" id="rollBtn">サイコロを振る</button><button class="btn alt" id="saveGameBtn">ゲーム保存</button></div>
+ <div class="status"><span id="goalStatus">🎯 目的地: -</span><span id="roundStatus">Round 0</span><span id="turnStatus">未開始</span></div>
 </section>
-
+<section class="panel no-print turn-panel">
+ <h2 id="turnTitle" style="margin:2px 0 10px">あなたのターン</h2>
+ <div class="toolbar"><button class="btn alt" id="myPosBtn">📍 自分の位置</button><button class="btn alt" id="overviewBtn2">🗺️ 全体マップ</button><button class="btn alt" id="saveGameBtn">💾 セーブ</button></div>
+</section>
+<section class="panel no-print">
+ <div class="distance-big" id="distanceStatus">⬆️ 🎯まで最短 - マス</div>
+ <div class="dice-area" style="justify-content:center;margin-top:10px"><div id="dice" class="dice">⚄</div><button class="btn warn roll-big" id="rollBtn">🎲 サイコロをふる</button></div>
+ <div id="moveGuide" class="move-guide">サイコロを振ると、次に進めるマスが光ります。</div>
+</section>
 <section class="panel">
- <div class="map-shell"><div id="gameMap" class="map-stack"></div></div>
+ <div class="map-shell" id="mapShell"><div id="gameMap" class="map-stack"></div></div>
 </section>
+</div>
 
 <section class="panel no-print">
  <h3 style="margin-top:0">航海ログ</h3><div id="log" class="log"></div>
@@ -91,6 +113,7 @@ main{padding:12px;max-width:1500px;margin:auto}.panel{background:#073b55dd;borde
  <button class="btn" id="pdfBtn">📄 このコースをPDF出力</button>
  <div class="small" style="margin-top:7px">印刷専用レイアウトを同じマップデータから生成します。Safariでは共有 → プリント → PDF保存も利用できます。</div>
 </section>
+</div>
 
 <section id="adminPanel" class="panel admin no-print">
  <h2>管理 MASTER</h2>
@@ -141,7 +164,7 @@ function initialConfig(){
  updatedAt:""};
 }
 let config=initialConfig();
-let state={mapCount:1,nodes:{},edges:[],destinations:[],players:[],turn:0,round:0,currentGoal:null,started:false,log:[],seed:0};
+let state={mapCount:1,nodes:{},edges:[],destinations:[],players:[],turn:0,round:0,currentGoal:null,started:false,log:[],seed:0,moveRemaining:0,previousNode:null,awaitingMove:false};
 
 function rngFactory(seed){let x=seed>>>0;return()=>{x=(x*1664525+1013904223)>>>0;return x/4294967296}}
 function edgeId(a,b){return [a,b].sort().join("|")}
@@ -227,26 +250,46 @@ function chooseGoal(){
 }
 function goalNode(){return state.destinations.find(d=>d.destId===state.currentGoal)?.node}
 function roll(){
- if(!state.started)return alert("先にコースを生成してください。");
+ if(!state.started)return alert("先にゲームをスタートしてください。");
  let p=state.players[state.turn];if(p.finished)return nextTurn();
+ if(state.awaitingMove)return;
  if(p.skip>0){p.skip--;logMsg(`${p.name} は1回休み。`);return nextTurn()}
  let n=1+Math.floor(Math.random()*6);$("dice").textContent=DICE[n-1];logMsg(`${p.name}：${n} が出ました。`);
- moveSteps(p,n);
+ state.moveRemaining=n;state.previousNode=null;state.awaitingMove=true;
+ if(p.cpu){$("moveGuide").textContent=`CPUが ${n} マス進みます`;moveCpuStep();}
+ else { $("moveGuide").textContent=`あと ${n} マス。光ったマスをタップ！`;renderAll();highlightMoves(); }
 }
-async function moveSteps(p,steps){
- for(let s=0;s<steps;s++){
-  let ns=neighborsOf(p.pos);
-  if(!ns.length)break;
-  let next;
-  if(ns.length===1)next=ns[0];
-  else if(p.cpu||+$("kidsMode").value===1){
-   let g=goalNode();next=ns.slice().sort((a,b)=>(shortestPath(a,g)?.length||999)-(shortestPath(b,g)?.length||999))[0];
-  }else next=await chooseBranch(ns);
-  p.pos=next;renderAll();await delay(180);
+function legalNext(p){
+ let ns=neighborsOf(p.pos);
+ if(state.previousNode && ns.length>1)ns=ns.filter(x=>x!==state.previousNode);
+ return ns;
+}
+function highlightMoves(){
+ document.querySelectorAll(".cell.move-choice").forEach(x=>x.classList.remove("move-choice"));
+ if(!state.awaitingMove)return;
+ let p=state.players[state.turn];if(!p||p.cpu)return;
+ for(const n of legalNext(p)){
+  let el=document.querySelector(`#gameMap .cell[data-node="${CSS.escape(n)}"]`);
+  if(el){el.classList.add("move-choice");el.onclick=()=>humanStep(n)}
  }
- applyTile(p);checkGoal(p);nextTurn();
 }
-function chooseBranch(ns){return new Promise(resolve=>{$("choices").innerHTML="";for(const n of ns){let b=document.createElement("button");b.className="btn";let P=parseKey(n);b.textContent=`MAP${P.m+1} / ${P.r+1}-${P.c+1}`;b.onclick=()=>{$("choiceModal").classList.remove("open");resolve(n)};$("choices").appendChild(b)}$("choiceModal").classList.add("open")})}
+async function humanStep(next){
+ let p=state.players[state.turn];if(!state.awaitingMove||p.cpu||!legalNext(p).includes(next))return;
+ let old=p.pos;state.previousNode=old;p.pos=next;state.moveRemaining--;renderAll();
+ if(state.moveRemaining>0){$("moveGuide").textContent=`あと ${state.moveRemaining} マス。光ったマスをタップ！`;highlightMoves();scrollToPlayer(false)}
+ else finishMovement(p);
+}
+async function moveCpuStep(){
+ let p=state.players[state.turn];if(!state.awaitingMove||!p.cpu)return;
+ if(state.moveRemaining<=0)return finishMovement(p);
+ let ns=legalNext(p);if(!ns.length)return finishMovement(p);
+ let g=goalNode();ns.sort((a,b)=>(shortestPath(a,g)?.length||999)-(shortestPath(b,g)?.length||999));
+ let next=ns[0],old=p.pos;state.previousNode=old;p.pos=next;state.moveRemaining--;renderAll();await delay(240);moveCpuStep();
+}
+function finishMovement(p){
+ state.awaitingMove=false;state.moveRemaining=0;state.previousNode=null;applyTile(p);checkGoal(p);renderAll();nextTurn();
+}
+function chooseBranch(ns){return Promise.resolve(ns[0])}
 function applyTile(p){
  let n=state.nodes[p.pos];if(!n||n.type==="destination")return;
  if(n.type==="shell1")p.shells+=1;if(n.type==="shell2")p.shells+=2;if(n.type==="shell3")p.shells+=3;
@@ -266,7 +309,7 @@ function checkGoal(p){
  if(!alive.length){logMsg("🏁 全員ゴール！");return}
  chooseGoal();
 }
-function nextTurn(){state.turn=(state.turn+1)%state.players.length;if(state.turn===0)state.round++;renderAll();autoSave();let p=state.players[state.turn];if(p?.cpu&&!p.finished)setTimeout(roll,500)}
+function nextTurn(){state.awaitingMove=false;state.moveRemaining=0;state.previousNode=null;state.turn=(state.turn+1)%state.players.length;if(state.turn===0)state.round++;renderAll();$("moveGuide").textContent="サイコロを振ると、次に進めるマスが光ります。";autoSave();let p=state.players[state.turn];if(p?.cpu&&!p.finished)setTimeout(roll,500)}
 function delay(ms){return new Promise(r=>setTimeout(r,ms))}
 function logMsg(s){state.log.unshift(`${new Date().toLocaleTimeString("ja-JP",{hour:"2-digit",minute:"2-digit"})} ${s}`);state.log=state.log.slice(0,100);renderLog()}
 function renderLog(){$("log").innerHTML=state.log.map(x=>`<div>${esc(x)}</div>`).join("")}
@@ -295,9 +338,22 @@ function renderAll(){
  renderMap($("gameMap"),"game");renderLog();
  let p=state.players[state.turn],d=config.destinations[(state.currentGoal||1)-1],path=p?shortestPath(p.pos,goalNode()):null;
  $("turnStatus").textContent=p?`${p.name}${p.cpu?" CPU":""} / 🐚${p.shells}`:"未開始";
- $("goalStatus").textContent=state.currentGoal?`目的地: ${d.name}`:"目的地: -";
- $("distanceStatus").textContent=path?`最短距離: ${Math.max(0,path.length-1)}マス`:"最短距離: -";
- $("roundStatus").textContent=`Round ${state.round||0}`;
+ $("goalStatus").textContent=state.currentGoal?`🎯 いまの目的地：${d.name}`:"🎯 いまの目的地：-";
+ $("distanceStatus").textContent=path?`⬆️ 🎯まで最短 ${Math.max(0,path.length-1)}マス`:"⬆️ 🎯まで最短 - マス";
+ $("roundStatus").textContent=`ラウンド ${state.round||0}`;
+ if($("turnTitle"))$("turnTitle").textContent=p?(p.cpu?`🤖 ${p.name} のターン`:`${(config.playerIcons[p.icon]||{}).emoji||"🐟"} あなたのターン`):"あなたのターン";
+ document.querySelectorAll("#gameMap .cell.current-player").forEach(x=>x.classList.remove("current-player"));
+ if(p){let el=document.querySelector(`#gameMap .cell[data-node="${CSS.escape(p.pos)}"]`);if(el)el.classList.add("current-player")}
+ if(state.awaitingMove&&!p?.cpu)setTimeout(highlightMoves,0);
+}
+function startGame(){
+ generateCourse();
+ $("homeScreen").classList.add("hidden");$("gameScreen").classList.remove("hidden");
+ renderAll();setTimeout(()=>scrollToPlayer(true),100);
+}
+function scrollToPlayer(smooth=true){
+ let p=state.players[state.turn];if(!p)return;let el=document.querySelector(`#gameMap .cell[data-node="${CSS.escape(p.pos)}"]`);
+ if(el)el.scrollIntoView({behavior:smooth?"smooth":"auto",block:"center",inline:"center"});
 }
 function renderPlayerSetup(){
  let count=+$("playerCount").value;$("playerSetup").innerHTML="";
@@ -339,8 +395,10 @@ function backupMaster(){download(`MARINE_SUGOROKU_MASTER_backup_${Date.now()}.ht
 function exportIndex(){
  let copy=document.documentElement.cloneNode(true);
  copy.querySelector("#login")?.remove();copy.querySelector("#adminPanel")?.remove();copy.querySelector("#adminBtn")?.remove();copy.querySelector("#saveBtn")?.remove();copy.querySelector("#resumeBtn")?.remove();
- let script=copy.querySelector("script");let payload=JSON.stringify({config,state}).replace(/</g,"\\u003c");
- script.textContent=`window.__PUBLIC_BOOT__=${payload};\n`+script.textContent.replace("let config=initialConfig();","let config=(window.__PUBLIC_BOOT__?.config)||initialConfig();").replace('let state={mapCount:1,nodes:{},edges:[],destinations:[],players:[],turn:0,round:0,currentGoal:null,started:false,log:[],seed:0};','let state=(window.__PUBLIC_BOOT__?.state)||{mapCount:1,nodes:{},edges:[],destinations:[],players:[],turn:0,round:0,currentGoal:null,started:false,log:[],seed:0};').replace('$("loginBtn").onclick=login;','');
+ copy.querySelector("#homeScreen")?.classList.remove("hidden");copy.querySelector("#gameScreen")?.classList.add("hidden");
+ let script=copy.querySelector("script");let publicState=clone(state);publicState.started=false;publicState.players=[];publicState.turn=0;publicState.round=0;publicState.awaitingMove=false;publicState.moveRemaining=0;
+ let payload=JSON.stringify({config,state:publicState}).replace(/</g,"\\u003c");
+ script.textContent=`window.__PUBLIC_BOOT__=${payload};\n`+script.textContent.replace("let config=initialConfig();","let config=(window.__PUBLIC_BOOT__?.config)||initialConfig();").replace('let state={mapCount:1,nodes:{},edges:[],destinations:[],players:[],turn:0,round:0,currentGoal:null,started:false,log:[],seed:0,moveRemaining:0,previousNode:null,awaitingMove:false};','let state=(window.__PUBLIC_BOOT__?.state)||{mapCount:1,nodes:{},edges:[],destinations:[],players:[],turn:0,round:0,currentGoal:null,started:false,log:[],seed:0,moveRemaining:0,previousNode:null,awaitingMove:false};').replace('$("loginBtn").onclick=login;','');
  download("index.html","<!doctype html>\\n"+copy.outerHTML,"text/html");
 }
 function loadTheme(file){let fr=new FileReader();fr.onload=()=>{try{let x=JSON.parse(fr.result);let bg=x.background||x.backgroundImage||x.bg||"";if(bg){config.theme.background=bg;document.body.style.backgroundImage=`url("${bg}")`;config.theme.source=file.name;$("themeInfo").textContent=`同期: ${file.name}`;touch()}else alert("背景項目を検出できませんでした。")}catch(e){alert("marine-theme.jsonを確認してください。")}};fr.readAsText(file)}
