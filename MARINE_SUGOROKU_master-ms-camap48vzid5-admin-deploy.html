@@ -1,427 +1,103 @@
 <!doctype html>
-<html lang="ja">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>MARINE SUGOROKU MASTER</title>
 <style>
-:root{--bg:#062d46;--panel:#0d4967;--panel2:#0a3c57;--ink:#eefaff;--muted:#a9d7e8;--accent:#63e0ff;--accent2:#ffd166;--danger:#ff6b6b;--cell:64px;--gap:6px}
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Hiragino Sans","Yu Gothic",sans-serif;background:linear-gradient(#052a42,#0b5b77);color:var(--ink)}
-button,input,select,textarea{font:inherit}button{cursor:pointer}
-.top{position:sticky;top:0;z-index:30;background:#04283eeF;backdrop-filter:blur(10px);padding:10px 12px;border-bottom:1px solid #ffffff24}
-.brand{font-weight:900;letter-spacing:.08em}.sub{font-size:12px;color:var(--muted)}
-.toolbar{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}.btn{border:0;border-radius:12px;padding:9px 12px;background:#e8faff;color:#063047;font-weight:800}.btn.alt{background:#174f68;color:white}.btn.warn{background:#ffd166;color:#493500}.btn.danger{background:#ff7b7b;color:#401010}
-main{padding:12px;max-width:1500px;margin:auto}.panel{background:#073b55dd;border:1px solid #ffffff20;border-radius:18px;padding:12px;margin-bottom:12px;box-shadow:0 12px 30px #001b2a55}
-.setup{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}.field label{display:block;font-size:12px;color:#bce9f6;margin-bottom:4px}.field input,.field select,.field textarea{width:100%;padding:9px;border-radius:10px;border:1px solid #ffffff33;background:#052e45;color:white}
-.status{display:flex;gap:14px;flex-wrap:wrap;font-weight:800}.status span{background:#ffffff10;padding:7px 10px;border-radius:10px}
-.map-shell{overflow:auto;border-radius:16px;background:#031f30;padding:12px;max-height:68vh;touch-action:pan-x pan-y}.map-stack{display:flex;flex-direction:column;gap:18px;min-width:max-content}
-.map{position:relative;display:grid;grid-template-columns:repeat(13,var(--cell));grid-template-rows:repeat(7,var(--cell));gap:var(--gap);padding:8px;background:linear-gradient(180deg,#0c6685,#084862);border-radius:16px}
-.map-title{position:absolute;left:12px;top:-16px;font-size:11px;background:#062d46;padding:2px 8px;border-radius:99px;z-index:9}
-.cell{position:relative;width:var(--cell);height:var(--cell);border-radius:14px;background:#0a3d55;border:1px solid #ffffff12;display:flex;align-items:center;justify-content:center;user-select:none}
-.cell.active{background:#0f5873}.cell .tile{z-index:4;width:72%;height:72%;border-radius:50%;background:#dff8ff;color:#08344a;display:flex;align-items:center;justify-content:center;font-weight:900;box-shadow:0 4px 10px #001b2a66;overflow:hidden}
-.tile img,.dest img,.avatar img{width:100%;height:100%;object-fit:cover}.cell.destination .tile{background:#ffe39a;border:3px solid #fff}.road{position:absolute;background:#a9eaff;z-index:1;opacity:.9}.road.h{height:10px;top:50%;transform:translateY(-50%)}.road.v{width:10px;left:50%;transform:translateX(-50%)}
-.road.r{left:50%;right:calc(-1 * var(--gap) - 1px)}.road.l{right:50%;left:calc(-1 * var(--gap) - 1px)}.road.d{top:50%;bottom:calc(-1 * var(--gap) - 1px)}.road.u{bottom:50%;top:calc(-1 * var(--gap) - 1px)}
-.tokens{position:absolute;z-index:8;inset:2px;display:flex;flex-wrap:wrap;align-content:flex-start;gap:1px;pointer-events:none}.avatar{width:25px;height:25px;border-radius:50%;background:#fff;border:2px solid #08344a;display:flex;align-items:center;justify-content:center;font-size:15px;overflow:hidden}
-.dice-area{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.dice{font-size:38px;width:62px;height:62px;border-radius:16px;background:#fff;color:#063047;display:flex;align-items:center;justify-content:center}
-.log{max-height:150px;overflow:auto;background:#031f30;padding:8px;border-radius:12px;font-size:13px}.log div{padding:3px 0;border-bottom:1px solid #ffffff0e}
-.admin{display:none}.admin.open{display:block}.tabs{display:flex;gap:6px;overflow:auto}.tab{white-space:nowrap}.admin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}.card{background:#052e45;padding:10px;border-radius:14px}.card h3{margin:0 0 8px}.dest-preview{display:flex;align-items:center;gap:8px}.dest{width:48px;height:48px;border-radius:12px;background:#fff;color:#123;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.modal{position:fixed;inset:0;background:#00131ddd;z-index:100;display:none;padding:18px;overflow:auto}.modal.open{display:block}.modalbox{max-width:1450px;margin:auto;background:#06354c;border-radius:18px;padding:12px;min-height:80vh}.modalhead{display:flex;justify-content:space-between;align-items:center;gap:10px;position:sticky;top:0;background:#06354c;z-index:5;padding:5px}
-.overview .map{--cell:38px;--gap:3px}.overview .tile{font-size:12px}.choicebox{display:flex;gap:8px;flex-wrap:wrap;padding:12px}.choicebox button{min-width:100px}
-.login{position:fixed;inset:0;z-index:200;background:linear-gradient(#04283e,#0a617c);display:flex;align-items:center;justify-content:center;padding:20px}.loginbox{width:min(420px,100%);background:#073b55;padding:24px;border-radius:24px;text-align:center}.loginbox input{width:100%;padding:12px;border-radius:12px;border:0;margin:10px 0}
-.small{font-size:12px;color:#b8e2ee}.hidden{display:none!important}
-@media(max-width:700px){:root{--cell:54px;--gap:5px}.top{position:relative}.map-shell{max-height:62vh}.btn{padding:9px 10px}}
-@media print{
- @page{size:A4 landscape;margin:7mm}
- body{background:#fff;color:#000}.top,.no-print,.panel:not(.print-area),.login,.modal{display:none!important}
- main{padding:0;max-width:none}.print-area{display:block!important;background:#fff;border:0;box-shadow:none;padding:0;margin:0}
- #printPages{display:block!important}.print-page{break-after:page;width:277mm;height:190mm;display:flex;align-items:center;justify-content:center;position:relative}
- .print-page:last-child{break-after:auto}.print-page .map{--cell:18mm;--gap:1mm;background:#dff6ff}
- .print-page .cell{border-color:#aacbd5;background:#e9f8fc}.print-page .cell.active{background:#d4f0f7}.print-page .road{background:#3c8fa8}.print-page .tokens{display:none}
-}
-
-.home-screen{background:linear-gradient(#eefdff,#dff8ff);color:#0a3b55;border:4px solid #bdeafa}
-.home-screen .card{background:#fff;color:#0a3b55;border:3px solid #c5ebf6}.home-screen .field label{color:#0a3b55;font-size:18px;font-weight:900}
-.home-screen select{background:#f4f4f4!important;color:#111!important;border:2px solid #a7dff0!important;font-size:18px}
-.rules{margin-top:16px;line-height:1.8}.start-btn{display:block;margin:18px auto 4px;background:#08ae70;color:white;font-size:22px;padding:16px 26px;box-shadow:0 7px 0 #087a52}
-.turn-panel{text-align:center}.distance-big{text-align:center;font-size:22px;font-weight:900}.roll-big{font-size:22px;padding:17px 25px;background:#168ccb;color:white}
-.move-guide{text-align:center;margin-top:10px;color:#c8edf7;font-weight:800}.cell.move-choice{outline:5px solid #ffe66d;box-shadow:0 0 0 7px #ff9f1c88,0 0 22px #fff36c;animation:pulseChoice .75s infinite alternate;cursor:pointer}
-.cell.current-player{outline:5px solid #ff6b6b;box-shadow:0 0 22px #ff6b6b}
-@keyframes pulseChoice{to{transform:scale(1.06)}}
-@media(max-width:700px){.home-screen{border-radius:0}.home-screen .setup{grid-template-columns:1fr 1fr}.distance-big{font-size:19px}}
-</style>
-</head>
-<body>
-<div id="login" class="login">
- <div class="loginbox">
-  <div style="font-size:13px;letter-spacing:.18em">MARINE COLLECTION MASTER</div>
-  <h1>MARINE SUGOROKU MASTER</h1>
-  <div class="small">完全新規初版 / Single Source of Truth</div>
-  <input id="pw" type="password" inputmode="numeric" placeholder="管理パスワード">
-  <button class="btn" id="loginBtn">ログイン</button>
-  <div id="loginMsg" class="small"></div>
- </div>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Hiragino Sans","Yu Gothic",sans-serif;background:linear-gradient(#06314a,#0b718e);color:#eefaff}
+header{padding:16px;position:sticky;top:0;background:#052d43ee;z-index:10}.brand{font-weight:900;letter-spacing:.08em}.wrap{max-width:1100px;margin:auto;padding:14px}
+.panel{background:#073e59;border:1px solid #ffffff22;border-radius:20px;padding:16px;margin-bottom:14px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}.card{background:#052f46;border-radius:15px;padding:12px}
+label{display:block;font-weight:800;margin:7px 0 4px}input,select{width:100%;padding:10px;border-radius:10px;border:1px solid #a7dff0;background:#fff;color:#123}
+button{border:0;border-radius:12px;padding:11px 14px;font-weight:900;cursor:pointer}.primary{background:#ffd166;color:#443100}.secondary{background:#dff8ff;color:#06314a}.green{background:#13b87a;color:white}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px}.small{font-size:12px;color:#bfe8f4}.preview{width:56px;height:56px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:30px;overflow:hidden}.preview img{width:100%;height:100%;object-fit:cover}
+.login{position:fixed;inset:0;background:linear-gradient(#04283e,#0a617c);z-index:100;display:flex;align-items:center;justify-content:center}.loginbox{width:min(420px,92vw);background:#073e59;padding:24px;border-radius:22px;text-align:center}.hidden{display:none!important}
+</style></head><body>
+<div id="login" class="login"><div class="loginbox"><div>MARINE COLLECTION MASTER</div><h1>MARINE SUGOROKU MASTER</h1><input id="pw" type="password" placeholder="管理パスワード"><button id="loginBtn" class="secondary">ログイン</button><div id="loginMsg" class="small"></div></div></div>
+<header><div class="brand">🌊 MARINE SUGOROKU MASTER</div><div id="updated" class="small">未保存</div></header>
+<div class="wrap">
+<section class="panel"><h2>公開ゲーム基本設定</h2><div class="grid">
+<div class="card"><label>画像最大辺</label><select id="imageMax"><option>512</option><option selected>1024</option><option>1600</option><option>2048</option></select><label>JPEG品質</label><input id="quality" type="number" min=".4" max="1" step=".05" value=".82"></div>
+<div class="card"><label>公開側の画像保存</label><select id="allowSave"><option value="0">OFF</option><option value="1">ON</option></select><label>背景画像</label><input id="bgUpload" type="file" accept="image/*"></div>
+</div></section>
+<section class="panel"><h2>目的地 1〜9</h2><div id="destinations" class="grid"></div></section>
+<section class="panel"><h2>マス素材</h2><div id="tiles" class="grid"></div></section>
+<section class="panel"><h2>プレイヤーアイコン</h2><div id="icons" class="grid"></div></section>
+<section class="panel"><h2>保存・書き出し</h2><div class="toolbar">
+<button id="saveBtn" class="secondary">💾 手動保存</button><button id="jsonOut" class="secondary">JSON書き出し</button><button id="jsonInBtn" class="secondary">JSON読込</button><input id="jsonIn" class="hidden" type="file" accept=".json">
+<button id="themeBtn" class="secondary">marine-theme.json</button><input id="themeFile" class="hidden" type="file" accept=".json">
+<button id="backupBtn" class="secondary">MASTERバックアップ</button><button id="indexBtn" class="green">🌐 公開用 index.html 書き出し</button>
+</div><p class="small">MASTERは設定専用です。公開ゲームは書き出した index.html で動作します。</p></section>
 </div>
-
-<header class="top no-print">
- <div class="brand">🌊 MARINE SUGOROKU MASTER</div><div class="sub" id="updated">未保存</div>
- <div class="toolbar">
-  <button class="btn" id="newCourse">🎲 コース生成</button>
-  <button class="btn alt" id="overviewBtn">🗺️ 全体マップ</button>
-  <button class="btn alt" id="adminBtn">⚙️ 管理</button>
-  <button class="btn alt" id="saveBtn">💾 手動保存</button>
-  <button class="btn alt" id="resumeBtn">↩️ 再開</button>
- </div>
-</header>
-
-<main>
-<section id="homeScreen" class="panel no-print home-screen">
- <h1 style="margin:4px 0 14px">🎮 あそびかたを選ぶ</h1>
- <div class="setup">
-  <div class="card field"><label>👥 プレイヤー人数</label><select id="playerCount"><option>1</option><option selected>2</option><option>3</option><option>4</option></select></div>
-  <div class="card field"><label>🗺️ コース</label><select id="courseLength"><option value="1">SHORT / 1MAP</option><option value="2">MIDDLE / 2MAP</option><option value="3">LONG / 3MAP</option></select></div>
-  <div class="card field"><label>🧒 こどもモード</label><select id="kidsMode"><option value="1" selected>ON</option><option value="0">OFF</option></select></div>
-  <div class="card field"><label>🎯 目的地</label><select id="goalRule"><option value="random">ランダム</option><option value="sequence">番号順</option></select></div>
- </div>
- <div id="playerSetup" class="admin-grid" style="margin-top:10px"></div>
- <div class="card rules"><h2>📖 ルール</h2><p>🎯 ランダムに決まる目的地をめざそう！<br>🐚 マスで貝殻をGET。<br>🌊 進む・戻る・休みなどのイベントあり。<br>👆 サイコロのあと、光ったマスを1マスずつタップして進みます。</p></div>
- <button class="btn start-btn" id="startGameBtn">🎲 ゲームスタート！</button>
-</section>
-
-<div id="gameScreen" class="hidden">
-<section class="panel no-print">
- <div class="status"><span id="goalStatus">🎯 目的地: -</span><span id="roundStatus">Round 0</span><span id="turnStatus">未開始</span></div>
-</section>
-<section class="panel no-print turn-panel">
- <h2 id="turnTitle" style="margin:2px 0 10px">あなたのターン</h2>
- <div class="toolbar"><button class="btn alt" id="myPosBtn">📍 自分の位置</button><button class="btn alt" id="overviewBtn2">🗺️ 全体マップ</button><button class="btn alt" id="saveGameBtn">💾 セーブ</button></div>
-</section>
-<section class="panel no-print">
- <div class="distance-big" id="distanceStatus">⬆️ 🎯まで最短 - マス</div>
- <div class="dice-area" style="justify-content:center;margin-top:10px"><div id="dice" class="dice">⚄</div><button class="btn warn roll-big" id="rollBtn">🎲 サイコロをふる</button></div>
- <div id="moveGuide" class="move-guide">サイコロを振ると、次に進めるマスが光ります。</div>
-</section>
-<section class="panel">
- <div class="map-shell" id="mapShell"><div id="gameMap" class="map-stack"></div></div>
-</section>
-</div>
-
-<section class="panel no-print">
- <h3 style="margin-top:0">航海ログ</h3><div id="log" class="log"></div>
-</section>
-
-<section class="panel no-print">
- <button class="btn" id="pdfBtn">📄 このコースをPDF出力</button>
- <div class="small" style="margin-top:7px">印刷専用レイアウトを同じマップデータから生成します。Safariでは共有 → プリント → PDF保存も利用できます。</div>
-</section>
-</div>
-
-<section id="adminPanel" class="panel admin no-print">
- <h2>管理 MASTER</h2>
- <div class="toolbar">
-  <button class="btn alt" id="exportJson">JSON書き出し</button><button class="btn alt" id="importJsonBtn">JSON読込</button>
-  <button class="btn alt" id="backupBtn">MASTERバックアップ</button><button class="btn warn" id="exportIndex">公開用 index.html 書き出し</button>
-  <button class="btn alt" id="themeBtn">marine-theme.json 読込</button>
-  <input type="file" id="importJson" accept=".json,application/json" class="hidden"><input type="file" id="themeFile" accept=".json,application/json" class="hidden">
- </div>
- <div class="admin-grid" style="margin-top:12px">
-  <div class="card"><h3>公開設定</h3>
-   <div class="field"><label>公開側の画像保存許可</label><select id="allowImageSave"><option value="0">OFF</option><option value="1">ON</option></select></div>
-   <div class="field"><label>画像最大辺</label><select id="imageMax"><option value="512">512px</option><option value="1024" selected>1024px</option><option value="1600">1600px</option><option value="2048">2048px</option></select></div>
-   <div class="field"><label>JPEG品質</label><input id="imageQuality" type="number" min=".4" max="1" step=".05" value=".82"></div>
-  </div>
-  <div class="card"><h3>背景同期</h3><div class="small" id="themeInfo">marine-theme.json 未読込</div><div class="field"><label>背景画像</label><input type="file" id="backgroundUpload" accept="image/*"></div></div>
- </div>
- <h2>目的地 1〜9</h2><div id="destAdmin" class="admin-grid"></div>
- <h2>マス素材</h2><div id="tileAdmin" class="admin-grid"></div>
- <h2>プレイヤーアイコン</h2><div id="iconAdmin" class="admin-grid"></div>
-</section>
-
-<section class="print-area" style="display:none"><div id="printPages"></div></section>
-</main>
-
-<div id="overviewModal" class="modal no-print"><div class="modalbox"><div class="modalhead"><h2>全体マップ</h2><button class="btn" data-close="overviewModal">閉じる</button></div><div id="overviewMap" class="map-stack overview"></div></div></div>
-<div id="choiceModal" class="modal no-print"><div class="modalbox" style="min-height:auto;max-width:620px"><div class="modalhead"><h2>進む道を選んでね</h2></div><div id="choices" class="choicebox"></div></div></div>
-
 <script>
 "use strict";
-(() => {
-const ROWS=7,COLS=13, CELLS=ROWS*COLS, VERSION="1.0.0";
-const $=id=>document.getElementById(id);
-const key=(m,r,c)=>`${m}:${r}:${c}`;
-const parseKey=k=>{const [m,r,c]=k.split(":").map(Number);return {m,r,c}};
-const DIRS=[[-1,0],[1,0],[0,-1],[0,1]];
-const DICE=["⚀","⚁","⚂","⚃","⚄","⚅"];
-const DEFAULT_DEST=["🐚","🐠","🪸","🐙","🐬","🦀","🐳","🦑","🏝️"];
-const TILE_TYPES={normal:"・",shell1:"🐚",shell2:"🐚2",shell3:"🐚3",forward:"⏩",back:"↩️",rest:"💤",event:"✨"};
-const DEFAULT_ICONS=["🐬","🐠","🐙","🦀","🐳","🦑","🐡","🦈"];
-const now=()=>new Date().toLocaleString("ja-JP");
-const clone=o=>JSON.parse(JSON.stringify(o));
-function initialConfig(){
- return {version:VERSION,password:"3103",allowImageSave:false,image:{max:1024,quality:.82},theme:{background:"",source:""},
- destinations:Array.from({length:9},(_,i)=>({id:i+1,name:`目的地${i+1}`,icon:"",arrival:"",emoji:DEFAULT_DEST[i]})),
- tileImages:Object.fromEntries(Object.keys(TILE_TYPES).map(k=>[k,""])),
- playerIcons:DEFAULT_ICONS.map((e,i)=>({id:i,name:`アイコン${i+1}`,emoji:e,image:""})),
- updatedAt:""};
-}
-let config=initialConfig();
-let state={mapCount:1,nodes:{},edges:[],destinations:[],players:[],turn:0,round:0,currentGoal:null,started:false,log:[],seed:0,moveRemaining:0,previousNode:null,awaitingMove:false};
-
-function rngFactory(seed){let x=seed>>>0;return()=>{x=(x*1664525+1013904223)>>>0;return x/4294967296}}
-function edgeId(a,b){return [a,b].sort().join("|")}
-function addNode(nodes,m,r,c,type="normal"){let k=key(m,r,c);if(!nodes[k])nodes[k]={id:k,m,r,c,type};return k}
-function addEdge(edges,a,b){let e=edgeId(a,b);if(a!==b&&!edges.includes(e))edges.push(e)}
-function neighborsOf(k, edges=state.edges){let out=[];for(const e of edges){const [a,b]=e.split("|");if(a===k)out.push(b);else if(b===k)out.push(a)}return out}
-function manhattan(a,b){let A=parseKey(a),B=parseKey(b);return Math.abs((A.m*ROWS+A.r)-(B.m*ROWS+B.r))+Math.abs(A.c-B.c)}
-function carvePath(nodes,edges,a,b,rng){
- let A=parseKey(a),B=parseKey(b),cur=a; addNode(nodes,A.m,A.r,A.c);
- let guard=0;
- while(cur!==b && guard++<500){
-  let C=parseKey(cur), options=[];
-  let globalR=C.m*ROWS+C.r, targetR=B.m*ROWS+B.r;
-  if(globalR<targetR) options.push([1,0]); if(globalR>targetR) options.push([-1,0]);
-  if(C.c<B.c) options.push([0,1]); if(C.c>B.c) options.push([0,-1]);
-  if(!options.length)break;
-  if(rng()<.22){ options.sort(()=>rng()-.5) }
-  let [dr,dc]=options[Math.floor(rng()*options.length)];
-  let nr=C.r+dr,nm=C.m,nc=C.c+dc;
-  if(nr>=ROWS){nm++;nr=0} if(nr<0){nm--;nr=ROWS-1}
-  if(nm<0||nm>=state.mapCount||nc<0||nc>=COLS)continue;
-  let nk=addNode(nodes,nm,nr,nc);addEdge(edges,cur,nk);cur=nk;
- }
-}
-function generateCourse(){
- state.mapCount=+$("courseLength").value; state.seed=Date.now()&0xffffffff;
- let rng=rngFactory(state.seed),nodes={},edges=[],dests=[];
- const anchors=[[1,2],[3,6],[5,10]];
- for(let m=0;m<state.mapCount;m++){
-  let ids=anchors.map(([r,c],j)=>{let id=addNode(nodes,m,r,c,"destination");dests.push({destId:m*3+j+1,node:id});return id});
-  carvePath(nodes,edges,ids[0],ids[1],rng);carvePath(nodes,edges,ids[1],ids[2],rng);
-  if(m<state.mapCount-1){
-   let exit=addNode(nodes,m,6,6),entry=addNode(nodes,m+1,0,6);
-   carvePath(nodes,edges,ids[1],exit,rng);addEdge(edges,exit,entry);
-  }
- }
- // branches grow only by extending roads; every new cell immediately receives an edge
- let branchBudget=state.mapCount*42;
- let all=()=>Object.keys(nodes);
- for(let i=0;i<branchBudget;i++){
-  let start=all()[Math.floor(rng()*all().length)],cur=start,steps=1+Math.floor(rng()*5);
-  for(let s=0;s<steps;s++){
-   let C=parseKey(cur), opts=DIRS.slice().sort(()=>rng()-.5),made=false;
-   for(const [dr,dc] of opts){
-    let nr=C.r+dr,nc=C.c+dc,nm=C.m;
-    if(nr<0||nr>=ROWS||nc<0||nc>=COLS)continue;
-    let nk=key(nm,nr,nc);
-    if(!nodes[nk]){addNode(nodes,nm,nr,nc);addEdge(edges,cur,nk);cur=nk;made=true;break}
-    if(rng()<.12){addEdge(edges,cur,nk);cur=nk;made=true;break}
-   }
-   if(!made)break;
-  }
- }
- state.nodes=nodes;state.edges=edges;state.destinations=dests;
- assignTiles(rng);setupPlayers();state.turn=0;state.round=1;state.started=true;state.log=[];
- chooseGoal();logMsg("新しいコースを生成しました。");renderAll();autoSave();
-}
-function assignTiles(rng){
- const types=["normal","normal","normal","shell1","shell1","shell2","shell3","forward","back","rest","event"];
- for(const n of Object.values(state.nodes)){if(n.type==="destination")continue;n.type=types[Math.floor(rng()*types.length)]}
-}
-function setupPlayers(){
- let count=+$("playerCount").value, starts=state.destinations[0]?.node||Object.keys(state.nodes)[0];
- state.players=Array.from({length:count},(_,i)=>{
-  let old=state.players[i]||{};
-  let cpu=document.querySelector(`[data-pcpu="${i}"]`)?.checked||false;
-  let icon=+(document.querySelector(`[data-picon="${i}"]`)?.value||i%config.playerIcons.length);
-  return {id:i,name:`P${i+1}`,cpu,icon,pos:starts,shells:old.shells||0,skip:0,finished:false};
- });
-}
-function shortestPath(start,goal){
- if(!start||!goal)return null;let q=[start],prev={[start]:null};
- for(let qi=0;qi<q.length;qi++){let cur=q[qi];if(cur===goal){let p=[];while(cur){p.push(cur);cur=prev[cur]}return p.reverse()}
-  for(const n of neighborsOf(cur))if(!(n in prev)){prev[n]=cur;q.push(n)}
- }return null;
-}
-function chooseGoal(){
- let ids=state.destinations.map(d=>d.destId), occupied=new Set(state.players.map(p=>state.destinations.find(d=>d.node===p.pos)?.destId).filter(Boolean));
- let candidates=ids.filter(id=>!occupied.has(id));
- if(!candidates.length)candidates=ids;
- if($("goalRule").value==="sequence") state.currentGoal=candidates.sort((a,b)=>a-b)[0];
- else state.currentGoal=candidates[Math.floor(Math.random()*candidates.length)];
-}
-function goalNode(){return state.destinations.find(d=>d.destId===state.currentGoal)?.node}
-function roll(){
- if(!state.started)return alert("先にゲームをスタートしてください。");
- let p=state.players[state.turn];if(p.finished)return nextTurn();
- if(state.awaitingMove)return;
- if(p.skip>0){p.skip--;logMsg(`${p.name} は1回休み。`);return nextTurn()}
- let n=1+Math.floor(Math.random()*6);$("dice").textContent=DICE[n-1];logMsg(`${p.name}：${n} が出ました。`);
- state.moveRemaining=n;state.previousNode=null;state.awaitingMove=true;
- if(p.cpu){$("moveGuide").textContent=`CPUが ${n} マス進みます`;moveCpuStep();}
- else { $("moveGuide").textContent=`あと ${n} マス。光ったマスをタップ！`;renderAll();highlightMoves(); }
-}
-function legalNext(p){
- let ns=neighborsOf(p.pos);
- if(state.previousNode && ns.length>1)ns=ns.filter(x=>x!==state.previousNode);
- return ns;
-}
-function highlightMoves(){
- document.querySelectorAll(".cell.move-choice").forEach(x=>x.classList.remove("move-choice"));
- if(!state.awaitingMove)return;
- let p=state.players[state.turn];if(!p||p.cpu)return;
- for(const n of legalNext(p)){
-  let el=document.querySelector(`#gameMap .cell[data-node="${CSS.escape(n)}"]`);
-  if(el){el.classList.add("move-choice");el.onclick=()=>humanStep(n)}
- }
-}
-async function humanStep(next){
- let p=state.players[state.turn];if(!state.awaitingMove||p.cpu||!legalNext(p).includes(next))return;
- let old=p.pos;state.previousNode=old;p.pos=next;state.moveRemaining--;renderAll();
- if(state.moveRemaining>0){$("moveGuide").textContent=`あと ${state.moveRemaining} マス。光ったマスをタップ！`;highlightMoves();scrollToPlayer(false)}
- else finishMovement(p);
-}
-async function moveCpuStep(){
- let p=state.players[state.turn];if(!state.awaitingMove||!p.cpu)return;
- if(state.moveRemaining<=0)return finishMovement(p);
- let ns=legalNext(p);if(!ns.length)return finishMovement(p);
- let g=goalNode();ns.sort((a,b)=>(shortestPath(a,g)?.length||999)-(shortestPath(b,g)?.length||999));
- let next=ns[0],old=p.pos;state.previousNode=old;p.pos=next;state.moveRemaining--;renderAll();await delay(240);moveCpuStep();
-}
-function finishMovement(p){
- state.awaitingMove=false;state.moveRemaining=0;state.previousNode=null;applyTile(p);checkGoal(p);renderAll();nextTurn();
-}
-function chooseBranch(ns){return Promise.resolve(ns[0])}
-function applyTile(p){
- let n=state.nodes[p.pos];if(!n||n.type==="destination")return;
- if(n.type==="shell1")p.shells+=1;if(n.type==="shell2")p.shells+=2;if(n.type==="shell3")p.shells+=3;
- if(n.type==="rest"){p.skip=1;logMsg(`${p.name} は次回1回休み。`)}
- if(n.type==="forward"||n.type==="back"){
-  let g=goalNode(),ns=neighborsOf(p.pos);
-  ns.sort((a,b)=>(shortestPath(a,g)?.length||999)-(shortestPath(b,g)?.length||999));
-  let target=n.type==="forward"?ns[0]:ns[ns.length-1];if(target)p.pos=target;
- }
- if(n.type==="event")logMsg(`${p.name}：イベントマス！`);
-}
-function checkGoal(p){
- let g=goalNode();if(p.pos!==g)return;
- let d=config.destinations[state.currentGoal-1];logMsg(`🎉 ${p.name} が「${d.name}」に到着！`);
- p.finished=true;
- let alive=state.players.filter(x=>!x.finished);
- if(!alive.length){logMsg("🏁 全員ゴール！");return}
- chooseGoal();
-}
-function nextTurn(){state.awaitingMove=false;state.moveRemaining=0;state.previousNode=null;state.turn=(state.turn+1)%state.players.length;if(state.turn===0)state.round++;renderAll();$("moveGuide").textContent="サイコロを振ると、次に進めるマスが光ります。";autoSave();let p=state.players[state.turn];if(p?.cpu&&!p.finished)setTimeout(roll,500)}
-function delay(ms){return new Promise(r=>setTimeout(r,ms))}
-function logMsg(s){state.log.unshift(`${new Date().toLocaleTimeString("ja-JP",{hour:"2-digit",minute:"2-digit"})} ${s}`);state.log=state.log.slice(0,100);renderLog()}
-function renderLog(){$("log").innerHTML=state.log.map(x=>`<div>${esc(x)}</div>`).join("")}
+(()=>{
+const $=id=>document.getElementById(id), DEST_EMOJI=["🐚","🐠","🪸","🐙","🐬","🦀","🐳","🦑","🏝️"], ICONS=["🐟","🐙","🐬","🦀","🐳","🐡","🦑","🦈"];
+const TILE={normal:"・",shell1:"🐚",shell2:"🐚2",shell3:"🐚3",forward:"⏩",back:"⏪",rest:"💤",event:"✨"};
+let cfg={version:"1.0",password:"3103",updatedAt:"",allowSave:false,image:{max:1024,quality:.82},background:"",
+ destinations:Array.from({length:9},(_,i)=>({name:`目的地${i+1}`,emoji:DEST_EMOJI[i],icon:"",arrival:""})),
+ tiles:Object.fromEntries(Object.keys(TILE).map(k=>[k,""])),icons:ICONS.map((e,i)=>({name:`アイコン${i+1}`,emoji:e,image:""}))};
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function tileVisual(n){
- if(n.type==="destination"){let di=state.destinations.find(d=>d.node===n.id)?.destId, d=config.destinations[di-1];return d?.icon?`<img src="${d.icon}" alt="">`:(d?.emoji||"🏁")}
- let img=config.tileImages[n.type];return img?`<img src="${img}" alt="">`:(TILE_TYPES[n.type]||"・")
+function render(){
+ $("destinations").innerHTML=cfg.destinations.map((d,i)=>`<div class="card"><div style="display:flex;gap:10px;align-items:center"><div class="preview">${d.icon?`<img src="${d.icon}">`:d.emoji}</div><b>目的地 ${i+1}</b></div><label>名前</label><input data-dname="${i}" value="${esc(d.name)}"><label>マップ上アイコン</label><input data-dicon="${i}" type="file" accept="image/*"><label>到着時大画像</label><input data-darrival="${i}" type="file" accept="image/*"></div>`).join("");
+ $("tiles").innerHTML=Object.entries(TILE).map(([k,v])=>`<div class="card"><b>${v} ${k}</b><input data-tile="${k}" type="file" accept="image/*"></div>`).join("");
+ $("icons").innerHTML=cfg.icons.map((x,i)=>`<div class="card"><div class="preview">${x.image?`<img src="${x.image}">`:x.emoji}</div><b>${esc(x.name)}</b><input data-icon="${i}" type="file" accept="image/*"></div>`).join("");
+ bindDynamic();$("updated").textContent=cfg.updatedAt?`更新: ${cfg.updatedAt}`:"未保存";
 }
-function renderMap(target,mode="game",onlyMap=null){
- target.innerHTML="";
- for(let m=0;m<state.mapCount;m++){if(onlyMap!==null&&m!==onlyMap)continue;
-  let map=document.createElement("div");map.className="map";map.dataset.map=m;
-  let title=document.createElement("div");title.className="map-title";title.textContent=`MAP ${m+1}`;map.appendChild(title);
-  for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){
-   let k=key(m,r,c),n=state.nodes[k],cell=document.createElement("div");cell.className="cell"+(n?" active":"")+(n?.type==="destination"?" destination":"");cell.dataset.node=k;
-   if(n){
-    for(const nb of neighborsOf(k)){let B=parseKey(nb);if(B.m!==m)continue;if(B.r===r&&B.c===c+1)cell.innerHTML+=`<i class="road h r"></i>`;if(B.r===r&&B.c===c-1)cell.innerHTML+=`<i class="road h l"></i>`;if(B.c===c&&B.r===r+1)cell.innerHTML+=`<i class="road v d"></i>`;if(B.c===c&&B.r===r-1)cell.innerHTML+=`<i class="road v u"></i>`}
-    cell.innerHTML+=`<div class="tile">${tileVisual(n)}</div>`;
-    if(mode==="game"){let toks=state.players.filter(p=>p.pos===k);if(toks.length){let box=document.createElement("div");box.className="tokens";for(const p of toks){let ic=config.playerIcons[p.icon]||config.playerIcons[0];let a=document.createElement("div");a.className="avatar";a.innerHTML=ic.image?`<img src="${ic.image}" alt="">`:ic.emoji;box.appendChild(a)}cell.appendChild(box)}}
-   }
-   map.appendChild(cell);
-  }target.appendChild(map);
- }
+async function img(file){if(!file)return"";let u=URL.createObjectURL(file),im=new Image();await new Promise((r,j)=>{im.onload=r;im.onerror=j;im.src=u});let s=Math.min(1,cfg.image.max/Math.max(im.width,im.height)),w=Math.max(1,Math.round(im.width*s)),h=Math.max(1,Math.round(im.height*s)),c=document.createElement("canvas");c.width=w;c.height=h;c.getContext("2d").drawImage(im,0,0,w,h);URL.revokeObjectURL(u);return c.toDataURL("image/jpeg",cfg.image.quality)}
+function touch(){cfg.updatedAt=new Date().toLocaleString("ja-JP");localStorage.setItem("marineSugorokuCfg",JSON.stringify(cfg));$("updated").textContent=`更新: ${cfg.updatedAt}`}
+function bindDynamic(){
+ document.querySelectorAll("[data-dname]").forEach(e=>e.onchange=()=>{cfg.destinations[+e.dataset.dname].name=e.value;touch()});
+ document.querySelectorAll("[data-dicon]").forEach(e=>e.onchange=async()=>{cfg.destinations[+e.dataset.dicon].icon=await img(e.files[0]);touch();render()});
+ document.querySelectorAll("[data-darrival]").forEach(e=>e.onchange=async()=>{cfg.destinations[+e.dataset.darrival].arrival=await img(e.files[0]);touch()});
+ document.querySelectorAll("[data-tile]").forEach(e=>e.onchange=async()=>{cfg.tiles[e.dataset.tile]=await img(e.files[0]);touch()});
+ document.querySelectorAll("[data-icon]").forEach(e=>e.onchange=async()=>{cfg.icons[+e.dataset.icon].image=await img(e.files[0]);touch();render()});
 }
-function renderAll(){
- renderMap($("gameMap"),"game");renderLog();
- let p=state.players[state.turn],d=config.destinations[(state.currentGoal||1)-1],path=p?shortestPath(p.pos,goalNode()):null;
- $("turnStatus").textContent=p?`${p.name}${p.cpu?" CPU":""} / 🐚${p.shells}`:"未開始";
- $("goalStatus").textContent=state.currentGoal?`🎯 いまの目的地：${d.name}`:"🎯 いまの目的地：-";
- $("distanceStatus").textContent=path?`⬆️ 🎯まで最短 ${Math.max(0,path.length-1)}マス`:"⬆️ 🎯まで最短 - マス";
- $("roundStatus").textContent=`ラウンド ${state.round||0}`;
- if($("turnTitle"))$("turnTitle").textContent=p?(p.cpu?`🤖 ${p.name} のターン`:`${(config.playerIcons[p.icon]||{}).emoji||"🐟"} あなたのターン`):"あなたのターン";
- document.querySelectorAll("#gameMap .cell.current-player").forEach(x=>x.classList.remove("current-player"));
- if(p){let el=document.querySelector(`#gameMap .cell[data-node="${CSS.escape(p.pos)}"]`);if(el)el.classList.add("current-player")}
- if(state.awaitingMove&&!p?.cpu)setTimeout(highlightMoves,0);
+function dl(name,text,type="application/json"){let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},700)}
+function publicHTML(){
+ const data=JSON.stringify(cfg).replace(/</g,"\\u003c");
+ return `<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>MARINE SUGOROKU</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Hiragino Sans","Yu Gothic",sans-serif;background:linear-gradient(#dffbff,#25a8cf);color:#123f58}button,select{font:inherit}.wrap{max-width:850px;margin:auto;padding:16px}.box{background:#f7fdffff;border:4px solid #b8e9f5;border-radius:28px;padding:20px;margin-bottom:18px;box-shadow:0 8px 20px #12627b22}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.setting{background:white;border:4px solid #c4ebf5;border-radius:24px;padding:14px;font-weight:900}.setting select{width:100%;padding:12px;border:2px solid #a9ddec;border-radius:15px;background:#f2f2f2;margin-top:8px}.start{background:#0db274;color:white;border:0;border-radius:18px;padding:17px 26px;font-weight:900;font-size:22px;box-shadow:0 7px 0 #087c52}.hidden{display:none!important}.topstat{display:flex;gap:8px;flex-wrap:wrap}.pill{background:white;border-radius:18px;padding:9px 12px;font-weight:900}.turn{text-align:center;font-size:25px;font-weight:900}.toolbar{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}.btn{border:0;border-radius:16px;padding:13px 16px;background:#627f8d;color:white;font-weight:900}.roll{display:block;margin:12px auto;background:#138dcb;color:white;border:0;border-radius:20px;padding:19px 28px;font-size:25px;font-weight:900;box-shadow:0 7px 0 #096898}.distance{text-align:center;font-size:20px;font-weight:900}.mapShell{overflow:auto;background:#0d7393;border-radius:22px;padding:10px;max-height:65vh}.maps{display:flex;flex-direction:column;gap:18px;min-width:max-content}.map{--cell:58px;--gap:5px;display:grid;grid-template-columns:repeat(13,var(--cell));grid-template-rows:repeat(7,var(--cell));gap:var(--gap);padding:8px;background:#26a8cf;border-radius:18px;position:relative}.cell{width:var(--cell);height:var(--cell);position:relative;border-radius:14px;background:#1585a8;border:1px solid #ffffff33;display:flex;align-items:center;justify-content:center}.cell.active{background:#39b5d7}.tile{width:72%;height:72%;border-radius:13px;background:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;z-index:4;overflow:hidden}.tile img,.token img{width:100%;height:100%;object-fit:cover}.road{position:absolute;background:#e5fbff;z-index:1}.road.h{height:8px;top:50%;transform:translateY(-50%)}.road.v{width:8px;left:50%;transform:translateX(-50%)}.road.r{left:50%;right:calc(-1*var(--gap) - 1px)}.road.l{right:50%;left:calc(-1*var(--gap) - 1px)}.road.d{top:50%;bottom:calc(-1*var(--gap) - 1px)}.road.u{bottom:50%;top:calc(-1*var(--gap) - 1px)}.token{position:absolute;z-index:8;width:30px;height:30px;border-radius:50%;background:#fff;border:2px solid #0b5871;display:flex;align-items:center;justify-content:center;overflow:hidden}.choice{outline:5px solid #ffe66d;box-shadow:0 0 20px #fff36c;animation:p .7s infinite alternate;cursor:pointer}.current{outline:4px solid #ff665f}@keyframes p{to{transform:scale(1.06)}}.modal{position:fixed;inset:0;background:#002638df;z-index:30;display:none;overflow:auto;padding:15px}.modal.open{display:block}.modalbox{background:#eafaff;border-radius:20px;padding:14px;min-width:max-content}.overview .map{--cell:37px;--gap:3px}@media(max-width:600px){.wrap{padding:10px}.box{padding:14px}.map{--cell:54px}.grid{gap:10px}.setting{padding:11px}}
+@media print{@page{size:A4 landscape;margin:7mm}body{background:#fff}.noPrint,#home,#game>.box{display:none!important}#printPages{display:block!important}.printPage{width:277mm;height:190mm;break-after:page;display:flex;align-items:center;justify-content:center}.printPage .map{--cell:18mm;--gap:1mm}.printPage .token{display:none}}
+</style></head><body><div class="wrap">
+<section id="home"><div class="box"><h1>🎮 あそびかたを選ぶ</h1><div class="grid">
+<div class="setting">👥 人間プレイヤー<select id="humans"><option>1</option><option selected>2</option><option>3</option><option>4</option></select></div>
+<div class="setting">🤖 CPU<select id="cpus"><option>0</option><option selected>1</option><option>2</option><option>3</option></select></div>
+<div class="setting">🗺️ コース<select id="length"><option value="1">SHORT / 1MAP</option><option value="2">MIDDLE / 2MAP</option><option value="3">LONG / 3MAP</option></select></div>
+<div class="setting">🐟 プレイヤーアイコン<select id="picon"></select></div></div></div>
+<div class="box"><h2>📖 ルール</h2><p>🎯 ランダムに決まる目的地をめざそう！<br>🐚 貝殻を集めながら進みます。<br>🌊 進む・戻る・休みなどのイベントあり。<br>👆 サイコロのあと、光ったマスをタップして1マスずつ進みます。</p></div>
+<div class="box"><button id="start" class="start">🎲 ゲームスタート！</button></div></section>
+<section id="game" class="hidden"><div class="box"><div class="topstat"><span class="pill" id="goal">🎯 目的地</span><span class="pill" id="round">ラウンド 1</span><span class="pill" id="score"></span></div></div>
+<div class="box"><div id="turn" class="turn">あなたのターン</div><div class="toolbar"><button id="mypos" class="btn">📍 自分の位置</button><button id="overview" class="btn">🗺️ 全体マップ</button><button id="save" class="btn">💾 セーブ</button></div></div>
+<div class="box"><div id="distance" class="distance">⬆️ 🎯まで最短 - マス</div><button id="roll" class="roll">🎲 サイコロをふる</button><div id="guide" class="distance" style="font-size:14px"></div></div>
+<div class="mapShell" id="mapShell"><div id="maps" class="maps"></div></div><div class="box noPrint"><button id="pdf" class="btn">📄 このコースをPDF出力</button></div></section>
+<div id="ovModal" class="modal"><div class="modalbox"><button id="closeOv" class="btn">閉じる</button><div id="ovMaps" class="maps overview"></div></div></div><div id="printPages" class="hidden"></div></div>
+<script>const CFG=${data};</script><script>
+"use strict";(()=>{const $=id=>document.getElementById(id),R=7,C=13,T={normal:"",shell1:"🐚",shell2:"🐚2",shell3:"🐚3",forward:"⏩",back:"⏪",rest:"💤",event:"✨"},D=[[-1,0],[1,0],[0,-1],[0,1]];let S={maps:1,nodes:{},edges:[],dests:[],players:[],turn:0,round:1,goal:1,remaining:0,prev:null,moving:false};
+const k=(m,r,c)=>m+":"+r+":"+c,pk=x=>{let a=x.split(":").map(Number);return{m:a[0],r:a[1],c:a[2]}},eid=(a,b)=>[a,b].sort().join("|");
+function node(m,r,c,t="normal"){let x=k(m,r,c);if(!S.nodes[x])S.nodes[x]={id:x,m,r,c,type:t};return x}function edge(a,b){let e=eid(a,b);if(a!==b&&!S.edges.includes(e))S.edges.push(e)}function nb(x){let z=[];for(let e of S.edges){let[a,b]=e.split("|");if(a===x)z.push(b);else if(b===x)z.push(a)}return z}
+function path(a,b){if(!a||!b)return null;let q=[a],p={[a]:null};for(let i=0;i<q.length;i++){let x=q[i];if(x===b){let z=[];while(x){z.push(x);x=p[x]}return z.reverse()}for(let y of nb(x))if(!(y in p)){p[y]=x;q.push(y)}}return null}
+function carve(a,b){let A=pk(a),B=pk(b),cur=a,guard=0;while(cur!==b&&guard++<400){let X=pk(cur),opts=[];if(X.r<B.r)opts.push([1,0]);if(X.r>B.r)opts.push([-1,0]);if(X.c<B.c)opts.push([0,1]);if(X.c>B.c)opts.push([0,-1]);let z=opts[Math.floor(Math.random()*opts.length)],nr=X.r+z[0],nc=X.c+z[1],nm=X.m;if(nr>=R){nm++;nr=0}if(nr<0){nm--;nr=R-1}if(nm<0||nm>=S.maps)continue;let y=node(nm,nr,nc);edge(cur,y);cur=y}}
+function gen(){S.maps=+$("length").value;S.nodes={};S.edges=[];S.dests=[];for(let m=0;m<S.maps;m++){let row=3;let a=node(m,row,0,"destination"),b=node(m,row,6,"destination"),c=node(m,row,12,"destination");S.dests.push({id:m*3+1,node:a},{id:m*3+2,node:b},{id:m*3+3,node:c});carve(a,b);carve(b,c);if(m<S.maps-1){let exit=node(m,6,6),entry=node(m+1,0,6);carve(b,exit);edge(exit,entry)}}let budget=S.maps*48;for(let i=0;i<budget;i++){let keys=Object.keys(S.nodes),cur=keys[Math.floor(Math.random()*keys.length)],steps=1+Math.floor(Math.random()*5);for(let s=0;s<steps;s++){let X=pk(cur),opts=D.slice().sort(()=>Math.random()-.5),ok=false;for(let z of opts){let nr=X.r+z[0],nc=X.c+z[1];if(nr<0||nr>=R||nc<0||nc>=C)continue;let y=k(X.m,nr,nc);if(!S.nodes[y]){node(X.m,nr,nc);edge(cur,y);cur=y;ok=true;break}}if(!ok)break}}let types=["normal","normal","shell1","shell1","shell2","shell3","forward","back","rest","event"];for(let n of Object.values(S.nodes))if(n.type!=="destination")n.type=types[Math.floor(Math.random()*types.length)];let humans=+$("humans").value,cpus=+$("cpus").value,total=Math.min(4,humans+cpus),start=S.dests[1].node;S.players=Array.from({length:total},(_,i)=>({name:i<humans?"P"+(i+1):"CPU"+(i-humans+1),cpu:i>=humans,icon:i===0?+$("picon").value:i%CFG.icons.length,pos:start,shells:0,skip:0,done:false}));S.turn=0;S.round=1;S.goal=S.dests[Math.floor(Math.random()*S.dests.length)].id;S.moving=false;render()}
+function goalNode(){return S.dests.find(d=>d.id===S.goal)?.node}function visual(n){if(n.type==="destination"){let id=S.dests.find(d=>d.node===n.id)?.id,d=CFG.destinations[id-1];return d.icon?'<img src="'+d.icon+'">':d.emoji}let im=CFG.tiles[n.type];return im?'<img src="'+im+'">':(T[n.type]||"")}
+function renderMap(el,mode,mapOnly=null){el.innerHTML="";for(let m=0;m<S.maps;m++){if(mapOnly!==null&&m!==mapOnly)continue;let M=document.createElement("div");M.className="map";for(let r=0;r<R;r++)for(let c=0;c<C;c++){let id=k(m,r,c),n=S.nodes[id],x=document.createElement("div");x.className="cell"+(n?" active":"");x.dataset.node=id;if(n){for(let y of nb(id)){let B=pk(y);if(B.m!==m)continue;if(B.r===r&&B.c===c+1)x.innerHTML+='<i class="road h r"></i>';if(B.r===r&&B.c===c-1)x.innerHTML+='<i class="road h l"></i>';if(B.c===c&&B.r===r+1)x.innerHTML+='<i class="road v d"></i>';if(B.c===c&&B.r===r-1)x.innerHTML+='<i class="road v u"></i>'}x.innerHTML+='<div class="tile">'+visual(n)+'</div>';if(mode==="game")for(let p of S.players.filter(p=>p.pos===id)){let q=CFG.icons[p.icon]||CFG.icons[0],t=document.createElement("div");t.className="token";t.innerHTML=q.image?'<img src="'+q.image+'">':q.emoji;x.appendChild(t)}}M.appendChild(x)}el.appendChild(M)}}
+function render(){renderMap($("maps"),"game");let p=S.players[S.turn],d=CFG.destinations[S.goal-1],P=p?path(p.pos,goalNode()):null;$("goal").textContent="🎯 いまの目的地："+(d?.name||"-");$("round").textContent="ラウンド "+S.round;$("score").textContent=S.players.map(x=>x.name+" 🐚"+x.shells).join("　");$("turn").textContent=p?(p.cpu?"🤖 "+p.name+" のターン":"🐟 あなたのターン"):"";$("distance").textContent=P?"⬆️ 🎯まで最短 "+Math.max(0,P.length-1)+"マス":"⬆️ 🎯まで最短 - マス";let ce=document.querySelector('#maps .cell[data-node="'+CSS.escape(p?.pos||"")+'"]');if(ce)ce.classList.add("current");if(S.moving&&!p?.cpu)setTimeout(highlight,0)}
+function legal(){let p=S.players[S.turn],z=nb(p.pos);if(S.prev&&z.length>1)z=z.filter(x=>x!==S.prev);return z}function highlight(){document.querySelectorAll(".choice").forEach(x=>x.classList.remove("choice"));for(let y of legal()){let e=document.querySelector('#maps .cell[data-node="'+CSS.escape(y)+'"]');if(e){e.classList.add("choice");e.onclick=()=>step(y)}}}
+function roll(){let p=S.players[S.turn];if(S.moving)return;if(p.skip){p.skip--;return next()}let n=1+Math.floor(Math.random()*6);S.remaining=n;S.prev=null;S.moving=true;$("guide").textContent=n+"マス進みます。光ったマスをタップ！";if(p.cpu)cpuStep();else{render();highlight()}}
+function step(y){let p=S.players[S.turn];if(!S.moving||p.cpu||!legal().includes(y))return;S.prev=p.pos;p.pos=y;S.remaining--;render();if(S.remaining>0){$("guide").textContent="あと "+S.remaining+"マス";highlight();center(false)}else finish()}
+async function cpuStep(){let p=S.players[S.turn];if(!S.moving||!p.cpu)return;if(S.remaining<=0)return finish();let z=legal(),g=goalNode();z.sort((a,b)=>(path(a,g)?.length||999)-(path(b,g)?.length||999));if(!z[0])return finish();S.prev=p.pos;p.pos=z[0];S.remaining--;render();setTimeout(cpuStep,220)}
+function finish(){let p=S.players[S.turn],n=S.nodes[p.pos];S.moving=false;S.prev=null;if(n.type==="shell1")p.shells++;if(n.type==="shell2")p.shells+=2;if(n.type==="shell3")p.shells+=3;if(n.type==="rest")p.skip=1;if(p.pos===goalNode()){let old=S.goal;let opts=S.dests.filter(d=>d.id!==old);S.goal=opts[Math.floor(Math.random()*opts.length)].id}next()}
+function next(){S.turn=(S.turn+1)%S.players.length;if(S.turn===0)S.round++;$("guide").textContent="";render();localStorage.setItem("marineSugorokuGame",JSON.stringify(S));if(S.players[S.turn]?.cpu)setTimeout(roll,450)}
+function center(s=true){let p=S.players[S.turn],e=document.querySelector('#maps .cell[data-node="'+CSS.escape(p.pos)+'"]');e?.scrollIntoView({behavior:s?"smooth":"auto",block:"center",inline:"center"})}
+function validate(){if(S.dests.length!==S.maps*3)return false;let root=S.dests[0].node;return S.dests.every(d=>path(root,d.node))}
+$("picon").innerHTML=CFG.icons.map((x,i)=>'<option value="'+i+'">'+x.emoji+" "+x.name+"</option>").join("");$("start").onclick=()=>{gen();if(!validate())return alert("コース生成エラー");$("home").classList.add("hidden");$("game").classList.remove("hidden");setTimeout(()=>center(false),50)};$("roll").onclick=roll;$("mypos").onclick=()=>center();$("overview").onclick=()=>{renderMap($("ovMaps"),"overview");$("ovModal").classList.add("open")};$("closeOv").onclick=()=>$("ovModal").classList.remove("open");$("save").onclick=()=>{localStorage.setItem("marineSugorokuGame",JSON.stringify(S));alert("保存しました")};$("pdf").onclick=()=>{$("printPages").innerHTML="";for(let m=0;m<S.maps;m++){let p=document.createElement("div");p.className="printPage";let z=document.createElement("div");z.className="maps";p.appendChild(z);$("printPages").appendChild(p);renderMap(z,"print",m)}$("printPages").classList.remove("hidden");window.print();$("printPages").classList.add("hidden")};
+if(CFG.background)document.body.style.backgroundImage='url("'+CFG.background+'")';})();</script></body></html>`;
 }
-function startGame(){
- generateCourse();
- $("homeScreen").classList.add("hidden");$("gameScreen").classList.remove("hidden");
- renderAll();setTimeout(()=>scrollToPlayer(true),100);
-}
-function scrollToPlayer(smooth=true){
- let p=state.players[state.turn];if(!p)return;let el=document.querySelector(`#gameMap .cell[data-node="${CSS.escape(p.pos)}"]`);
- if(el)el.scrollIntoView({behavior:smooth?"smooth":"auto",block:"center",inline:"center"});
-}
-function renderPlayerSetup(){
- let count=+$("playerCount").value;$("playerSetup").innerHTML="";
- for(let i=0;i<count;i++){let div=document.createElement("div");div.className="card";div.innerHTML=`<b>P${i+1}</b><div class="field"><label>アイコン</label><select data-picon="${i}">${config.playerIcons.map((x,j)=>`<option value="${j}">${x.emoji} ${esc(x.name)}</option>`).join("")}</select></div><label><input type="checkbox" data-pcpu="${i}"> CPU</label>`;$("playerSetup").appendChild(div)}
-}
-function renderAdmin(){
- $("allowImageSave").value=config.allowImageSave?"1":"0";$("imageMax").value=config.image.max;$("imageQuality").value=config.image.quality;
- $("destAdmin").innerHTML="";
- config.destinations.forEach((d,i)=>{let x=document.createElement("div");x.className="card";x.innerHTML=`<h3>目的地 ${i+1}</h3><div class="dest-preview"><div class="dest">${d.icon?`<img src="${d.icon}">`:d.emoji}</div><div style="flex:1"><div class="field"><label>名前</label><input data-dname="${i}" value="${esc(d.name)}"></div></div></div><div class="field"><label>マップ上アイコン</label><input type="file" accept="image/*" data-dicon="${i}"></div><div class="field"><label>到着時の大きな画像</label><input type="file" accept="image/*" data-darrival="${i}"></div>`;$("destAdmin").appendChild(x)});
- $("tileAdmin").innerHTML="";Object.entries(TILE_TYPES).forEach(([k,e])=>{let x=document.createElement("div");x.className="card";x.innerHTML=`<h3>${e} ${k}</h3><input type="file" accept="image/*" data-tile="${k}">`;$("tileAdmin").appendChild(x)});
- $("iconAdmin").innerHTML="";config.playerIcons.forEach((ic,i)=>{let x=document.createElement("div");x.className="card";x.innerHTML=`<h3>${ic.emoji} ${esc(ic.name)}</h3><input type="file" accept="image/*" data-pupload="${i}">`;$("iconAdmin").appendChild(x)});
- bindAdminInputs();
-}
-function bindAdminInputs(){
- document.querySelectorAll("[data-dname]").forEach(el=>el.onchange=()=>{config.destinations[+el.dataset.dname].name=el.value;touch()});
- document.querySelectorAll("[data-dicon]").forEach(el=>el.onchange=async()=>{config.destinations[+el.dataset.dicon].icon=await imageFile(el.files[0]);touch();renderAdmin();renderAll()});
- document.querySelectorAll("[data-darrival]").forEach(el=>el.onchange=async()=>{config.destinations[+el.dataset.darrival].arrival=await imageFile(el.files[0]);touch()});
- document.querySelectorAll("[data-tile]").forEach(el=>el.onchange=async()=>{config.tileImages[el.dataset.tile]=await imageFile(el.files[0]);touch();renderAll()});
- document.querySelectorAll("[data-pupload]").forEach(el=>el.onchange=async()=>{config.playerIcons[+el.dataset.pupload].image=await imageFile(el.files[0]);touch();renderPlayerSetup();renderAll()});
-}
-async function imageFile(file){
- if(!file)return "";let max=+config.image.max,q=+config.image.quality;let url=URL.createObjectURL(file),img=new Image();await new Promise((res,rej)=>{img.onload=res;img.onerror=rej;img.src=url});
- let scale=Math.min(1,max/Math.max(img.width,img.height)),w=Math.max(1,Math.round(img.width*scale)),h=Math.max(1,Math.round(img.height*scale)),cv=document.createElement("canvas");cv.width=w;cv.height=h;cv.getContext("2d").drawImage(img,0,0,w,h);URL.revokeObjectURL(url);return cv.toDataURL("image/jpeg",q);
-}
-function touch(){config.updatedAt=now();$("updated").textContent=`更新: ${config.updatedAt}`;autoSave()}
-function autoSave(){try{localStorage.setItem("marineSugorokuMaster",JSON.stringify({config,state}));}catch(e){console.warn("autosave",e)}}
-function manualSave(){touch();alert("MASTERを端末内に保存しました。")}
-function resume(){try{let x=JSON.parse(localStorage.getItem("marineSugorokuMaster")||"null");if(!x)return alert("保存データがありません。");config=x.config;state=x.state;renderPlayerSetup();renderAdmin();renderAll();$("updated").textContent=`更新: ${config.updatedAt||"-"}`;alert("保存データを再開しました。")}catch(e){alert("保存データを読み込めませんでした。")}}
-function download(name,text,type="application/json"){let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000)}
-function exportJSON(){download("marine-sugoroku-data.json",JSON.stringify({config,state},null,2))}
-function importJSON(file){let fr=new FileReader();fr.onload=()=>{try{let x=JSON.parse(fr.result);if(!x.config||!x.state)throw 0;config=x.config;state=x.state;touch();renderPlayerSetup();renderAdmin();renderAll();alert("JSONを読み込みました。")}catch(e){alert("JSON形式を確認してください。")}};fr.readAsText(file)}
-function buildPrint(){
- $("printPages").innerHTML="";
- for(let m=0;m<state.mapCount;m++){let page=document.createElement("div");page.className="print-page";let wrap=document.createElement("div");wrap.className="map-stack";page.appendChild(wrap);$("printPages").appendChild(page);renderMap(wrap,"print",m)}
-}
-function printPDF(){if(!state.started)return alert("先にコースを生成してください。");buildPrint();window.print()}
-function overview(){if(!state.started)return alert("先にコースを生成してください。");renderMap($("overviewMap"),"overview");$("overviewModal").classList.add("open")}
-function backupMaster(){download(`MARINE_SUGOROKU_MASTER_backup_${Date.now()}.html`,document.documentElement.outerHTML,"text/html")}
-function exportIndex(){
- let copy=document.documentElement.cloneNode(true);
- copy.querySelector("#login")?.remove();copy.querySelector("#adminPanel")?.remove();copy.querySelector("#adminBtn")?.remove();copy.querySelector("#saveBtn")?.remove();copy.querySelector("#resumeBtn")?.remove();
- copy.querySelector("#homeScreen")?.classList.remove("hidden");copy.querySelector("#gameScreen")?.classList.add("hidden");
- let script=copy.querySelector("script");let publicState=clone(state);publicState.started=false;publicState.players=[];publicState.turn=0;publicState.round=0;publicState.awaitingMove=false;publicState.moveRemaining=0;
- let payload=JSON.stringify({config,state:publicState}).replace(/</g,"\\u003c");
- script.textContent=`window.__PUBLIC_BOOT__=${payload};\n`+script.textContent.replace("let config=initialConfig();","let config=(window.__PUBLIC_BOOT__?.config)||initialConfig();").replace('let state={mapCount:1,nodes:{},edges:[],destinations:[],players:[],turn:0,round:0,currentGoal:null,started:false,log:[],seed:0,moveRemaining:0,previousNode:null,awaitingMove:false};','let state=(window.__PUBLIC_BOOT__?.state)||{mapCount:1,nodes:{},edges:[],destinations:[],players:[],turn:0,round:0,currentGoal:null,started:false,log:[],seed:0,moveRemaining:0,previousNode:null,awaitingMove:false};').replace('$("loginBtn").onclick=login;','');
- download("index.html","<!doctype html>\\n"+copy.outerHTML,"text/html");
-}
-function loadTheme(file){let fr=new FileReader();fr.onload=()=>{try{let x=JSON.parse(fr.result);let bg=x.background||x.backgroundImage||x.bg||"";if(bg){config.theme.background=bg;document.body.style.backgroundImage=`url("${bg}")`;config.theme.source=file.name;$("themeInfo").textContent=`同期: ${file.name}`;touch()}else alert("背景項目を検出できませんでした。")}catch(e){alert("marine-theme.jsonを確認してください。")}};fr.readAsText(file)}
-function login(){if($("pw").value===config.password){$("login").classList.add("hidden");$("loginMsg").textContent=""}else $("loginMsg").textContent="パスワードが違います。"}
-function validate(){
- let errors=[];
- for(const [k,n] of Object.entries(state.nodes)){if(!neighborsOf(k).length&&!state.destinations.some(d=>d.node===k))errors.push(`孤立マス ${k}`)}
- for(const d of state.destinations){if(!state.nodes[d.node])errors.push(`目的地欠落 ${d.destId}`)}
- if(state.destinations.length){let root=state.destinations[0].node;for(const d of state.destinations)if(!shortestPath(root,d.node))errors.push(`目的地未接続 ${d.destId}`)}
- return errors;
-}
-$("loginBtn").onclick=login;$("pw").addEventListener("keydown",e=>{if(e.key==="Enter")login()});
-$("newCourse").onclick=()=>{generateCourse();let er=validate();if(er.length)alert("内部検証エラー:\\n"+er.join("\\n"))};
-$("rollBtn").onclick=roll;$("overviewBtn").onclick=overview;$("pdfBtn").onclick=printPDF;$("adminBtn").onclick=()=>{$("adminPanel").classList.toggle("open");renderAdmin()};
-$("saveBtn").onclick=manualSave;$("saveGameBtn").onclick=manualSave;$("resumeBtn").onclick=resume;
-$("playerCount").onchange=renderPlayerSetup;
-$("exportJson").onclick=exportJSON;$("importJsonBtn").onclick=()=>$("importJson").click();$("importJson").onchange=e=>e.target.files[0]&&importJSON(e.target.files[0]);
-$("backupBtn").onclick=backupMaster;$("exportIndex").onclick=exportIndex;$("themeBtn").onclick=()=>$("themeFile").click();$("themeFile").onchange=e=>e.target.files[0]&&loadTheme(e.target.files[0]);
-$("allowImageSave").onchange=e=>{config.allowImageSave=e.target.value==="1";touch()};$("imageMax").onchange=e=>{config.image.max=+e.target.value;touch()};$("imageQuality").onchange=e=>{config.image.quality=+e.target.value;touch()};
-$("backgroundUpload").onchange=async e=>{let f=e.target.files[0];if(f){config.theme.background=await imageFile(f);document.body.style.backgroundImage=`url("${config.theme.background}")`;touch()}};
-document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>$(b.dataset.close).classList.remove("open"));
-renderPlayerSetup();renderAdmin();renderAll();
-window.MARINE_SUGOROKU={getState:()=>clone(state),getConfig:()=>clone(config),validate,shortestPath,generateCourse};
+$("loginBtn").onclick=()=>{if($("pw").value===cfg.password)$("login").classList.add("hidden");else $("loginMsg").textContent="パスワードが違います"};
+$("pw").onkeydown=e=>{if(e.key==="Enter")$("loginBtn").click()};
+$("imageMax").onchange=e=>{cfg.image.max=+e.target.value;touch()};$("quality").onchange=e=>{cfg.image.quality=+e.target.value;touch()};$("allowSave").onchange=e=>{cfg.allowSave=e.target.value==="1";touch()};
+$("bgUpload").onchange=async e=>{cfg.background=await img(e.target.files[0]);touch()};
+$("saveBtn").onclick=()=>{touch();alert("MASTER設定を保存しました")};$("jsonOut").onclick=()=>dl("marine-sugoroku-settings.json",JSON.stringify(cfg,null,2));$("jsonInBtn").onclick=()=>$("jsonIn").click();$("jsonIn").onchange=e=>{let f=e.target.files[0],r=new FileReader();r.onload=()=>{try{cfg=JSON.parse(r.result);touch();render()}catch{alert("JSONを確認してください")}};if(f)r.readAsText(f)};
+$("themeBtn").onclick=()=>$("themeFile").click();$("themeFile").onchange=e=>{let f=e.target.files[0],r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);cfg.background=x.background||x.backgroundImage||x.bg||cfg.background;touch()}catch{alert("marine-theme.jsonを確認してください")}};if(f)r.readAsText(f)};
+$("backupBtn").onclick=()=>dl("MARINE_SUGOROKU_MASTER_backup.html","<!doctype html>\n"+document.documentElement.outerHTML,"text/html");$("indexBtn").onclick=()=>dl("index.html",publicHTML(),"text/html");
+try{let x=localStorage.getItem("marineSugorokuCfg");if(x)cfg=JSON.parse(x)}catch{}render();
 })();
-</script>
-</body></html>
+</script></body></html>
