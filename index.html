@@ -118,48 +118,58 @@ const EVENT_LABELS={shell1:["🐚","貝殻 +1"],shell3:["🐚🐚🐚","貝殻 +
 function showHelp(){
  let W=CFG.eventWeights||{},sum=Object.values(W).reduce((a,v)=>a+(+v||0),0)||1;
  let events=Object.entries(EVENT_LABELS).filter(([k])=>(+W[k]||0)>0).map(([k,v])=>'<div class="helpitem"><span class="big">'+v[0]+'</span> '+v[1]+'<div class="prob">約 '+((+W[k]||0)/sum*100).toFixed(1)+'%</div></div>').join("");
- $("helpBody").innerHTML='<h3>👀 画面の見かた</h3><div class="helpgrid"><div class="helpitem"><span class="big">🟡</span><b> 黄色く光るマス</b><br>今回進めるマスです。タップすると1マス進みます。</div><div class="helpitem" style="box-shadow:inset 0 0 0 5px #ff1744"><span class="big">🔴</span><b> 赤枠・赤線</b><br>目的地への最短・ゴールガイドです。サイコロ後は、出目ぴったりでゴールできるルートを最優先で案内します。</div><div class="helpitem"><span class="big">🎯</span><b> 目的地ガイド</b><br>現在めざしている目的地です。ゲーム画面上部の「目的地名・アイコンまで最短○マス」と連動します。</div></div><h3 style="margin-top:18px">🎲 移動ルール</h3><div class="helpitem"><b>出た目はすべて使い切ります。</b><br>残りの出目を最後まで消化できない行き止まり方向は、黄色く光らず選択できません。来た道への折り返しもできません。<br><br>🎯 目的地は<b>最後の1マスでぴったり止まった時だけ到着</b>です。途中で通った場合は通過します。<br><br>⚓ <b>マス効果は1行動につき1回だけ。</b>「進む・戻る」などの効果で移動した先のマス効果は発動しません。目的地は効果移動の最後にぴったり止まった場合のみ到着します。<br><br>🔴 赤いガイドは「出目ぴったりで目的地に着けるルート」を最優先。なければ、出目を使い切ったあと目的地に最も近くなる有効ルートを案内します。CPUも同じルールです。</div><h3>🧭 マスの意味</h3><div class="helpgrid"><div class="helpitem">🐚 貝殻を1個GET</div><div class="helpitem">🐚2 / 🐚3 貝殻を2・3個GET</div><div class="helpitem">⏩2 2マス進む</div><div class="helpitem">⏪2 2マス戻る</div><div class="helpitem">💤 1回休み</div><div class="helpitem">✨ ランダムイベント</div><div class="helpitem">🎯 現在の目的地</div><div class="helpitem">📍 スタート地点</div></div><h3 style="margin-top:18px">✨ イベントで起こること</h3><p class="small">イベントマスでは100%抽選。確率はMASTER設定から自動計算されます。</p><div class="helpgrid">'+events+'</div>';
+ $("helpBody").innerHTML='<h3>👀 画面の見かた</h3><div class="helpgrid"><div class="helpitem"><span class="big">🟡</span><b> 黄色く光るマス</b><br>今回進めるマスです。タップすると1マス進みます。</div><div class="helpitem" style="box-shadow:inset 0 0 0 5px #ff1744"><span class="big">🔴</span><b> 赤枠・赤線</b><br>目的地への最短・ゴールガイドです。サイコロ後は、出目ぴったりでゴールできるルートを最優先で案内します。</div><div class="helpitem"><span class="big">🎯</span><b> 目的地ガイド</b><br>現在めざしている目的地です。ゲーム画面上部の「目的地名・アイコンまで最短○マス」と連動します。</div></div><h3 style="margin-top:18px">🎲 移動ルール</h3><div class="helpitem"><b>出た目はすべて使い切ります。</b><br>残りの出目を最後まで消化できない行き止まり方向は、黄色く光らず選択できません。来た道への折り返しは通常できません。ただし、目的地を通過したあと行き止まりになり、残りの出目を使い切る通常ルートがない場合だけ、その行き止まりで1回だけ折り返せます。<br><br>🎯 目的地は<b>最後の1マスでぴったり止まった時だけ到着</b>です。途中で通った場合は通過します。<br><br>⚓ <b>マス効果は1行動につき1回だけ。</b>「進む・戻る」などの効果で移動した先のマス効果は発動しません。目的地は効果移動の最後にぴったり止まった場合のみ到着します。<br><br>🔴 赤いガイドは「出目ぴったりで目的地に着けるルート」を最優先。なければ、出目を使い切ったあと目的地に最も近くなる有効ルートを案内します。CPUも同じルールです。</div><h3>🧭 マスの意味</h3><div class="helpgrid"><div class="helpitem">🐚 貝殻を1個GET</div><div class="helpitem">🐚2 / 🐚3 貝殻を2・3個GET</div><div class="helpitem">⏩2 2マス進む</div><div class="helpitem">⏪2 2マス戻る</div><div class="helpitem">💤 1回休み</div><div class="helpitem">✨ ランダムイベント</div><div class="helpitem">🎯 現在の目的地</div><div class="helpitem">📍 スタート地点</div></div><h3 style="margin-top:18px">✨ イベントで起こること</h3><p class="small">イベントマスでは100%抽選。確率はMASTER設定から自動計算されます。</p><div class="helpgrid">'+events+'</div>';
  
 }
 
 function popup(html,ms=900){$("popupBox").innerHTML=html;$("popup").classList.add("show");return new Promise(r=>setTimeout(()=>{$("popup").classList.remove("show");r()},ms))}
 
-function canFinishSteps(cur,steps,prev){
+function moveOptions(cur,prev,passedGoal,turned){
+ let opts=nb(cur),forward=prev?opts.filter(x=>x!==prev):opts.slice();
+ // 通常は来た道へ戻れない。目的地を通過済みで、その先が本当の行き止まりになった時だけ1回折り返せる。
+ if(forward.length)return forward;
+ if(prev&&passedGoal&&!turned&&opts.includes(prev))return [prev];
+ return [];
+}
+function canFinishSteps(cur,steps,prev,passedGoal=false,turned=false,goal=goalNode()){
  if(steps<=0)return true;
- let opts=nb(cur);if(prev&&opts.length>1)opts=opts.filter(x=>x!==prev);
- for(let nxt of opts){if(nxt===prev)continue;if(canFinishSteps(nxt,steps-1,cur))return true}
+ let opts=moveOptions(cur,prev,passedGoal,turned);
+ for(let nxt of opts){
+  let isTurn=(nxt===prev),nextPassed=passedGoal||(nxt===goal&&steps>1);
+  if(canFinishSteps(nxt,steps-1,cur,nextPassed,turned||isTurn,goal))return true;
+ }
  return false;
 }
 function validNextMoves(){
  let p=S.players[S.turn];if(!p)return[];
- let opts=nb(p.pos);if(S.prev&&opts.length>1)opts=opts.filter(x=>x!==S.prev);
+ let opts=moveOptions(p.pos,S.prev,!!S.passedGoal,!!S.turnaroundUsed);
  if(S.remaining<=1)return opts;
- return opts.filter(nxt=>canFinishSteps(nxt,S.remaining-1,p.pos));
+ return opts.filter(nxt=>{let isTurn=nxt===S.prev,nextPassed=!!S.passedGoal||(nxt===goalNode()&&S.remaining>1);return canFinishSteps(nxt,S.remaining-1,p.pos,nextPassed,!!S.turnaroundUsed||isTurn,goalNode())});
 }
 function bestRollRoute(start,steps,goal,blockedPrev=null){
  let best=null,bestRemain=1e9;
- function dfs(cur,left,prev,route,visitedEdges){
+ function dfs(cur,left,prev,route,visitedEdges,passedGoal,turned){
   if(left===0){
    if(cur===goal)return {exact:true,route:route.slice(),remain:0};
    let rem=path(cur,goal),dist=rem?rem.length-1:1e9;
    if(dist<bestRemain){bestRemain=dist;best={exact:false,route:route.slice(),remain:dist}}
    return null;
   }
-  let opts=nb(cur);
-  if(prev&&opts.length>1)opts=opts.filter(x=>x!==prev);
-  if(left>1)opts=opts.filter(nxt=>canFinishSteps(nxt,left-1,cur));
+  let opts=moveOptions(cur,prev,passedGoal,turned);
+  if(left>1)opts=opts.filter(nxt=>{let isTurn=nxt===prev,nextPassed=passedGoal||(nxt===goal&&left>1);return canFinishSteps(nxt,left-1,cur,nextPassed,turned||isTurn,goal)});
   opts=opts.slice().sort((a,b)=>(path(a,goal)?.length||999)-(path(b,goal)?.length||999));
   for(let nxt of opts){
-   let e=eid(cur,nxt),count=visitedEdges[e]||0;
-   if(count>=1)continue;
+   let isTurn=nxt===prev,e=eid(cur,nxt),count=visitedEdges[e]||0;
+   // 折り返し時だけ同じ辺の逆走を1回許可。それ以外の往復ループは禁止。
+   if(count>=1&&!isTurn)continue;if(count>=2)continue;
    visitedEdges[e]=count+1;route.push(nxt);
-   let hit=dfs(nxt,left-1,cur,route,visitedEdges);
+   let hit=dfs(nxt,left-1,cur,route,visitedEdges,passedGoal||(nxt===goal&&left>1),turned||isTurn);
    route.pop();if(count)visitedEdges[e]=count;else delete visitedEdges[e];
    if(hit?.exact)return hit;
   }
   return null;
  }
- let exact=dfs(start,steps,blockedPrev,[start],{});
+ let exact=dfs(start,steps,blockedPrev,[start],{},!!S.passedGoal,!!S.turnaroundUsed);
  return exact||best;
 }
 function addRouteSeg(nodeId,cls){let e=document.querySelector('#maps .cell[data-node="'+CSS.escape(nodeId)+'"]');if(!e)return;e.classList.add("routecell");let z=document.createElement("i");z.className="route "+cls;e.appendChild(z)}
@@ -215,7 +225,14 @@ function forcedStep(y){
 async function roll(){const serial=S.turnSerial||0;dbg("ROLL_START");let p=S.players[S.turn];if(S.phase!=="idle"||S.moving)return;S.phase="rolling";if(p.skip){p.skip--;await popup("💤 "+p.name+"<br>1回休み",850);if((S.turnSerial||0)!==serial)return;S.phase="idle";return next(serial)}let ic=CFG.icons[p.icon]||CFG.icons[0],pv=ic.image?'<img src="'+ic.image+'">':ic.emoji;$("popupBox").innerHTML='<span class="popplayer">'+pv+'</span><b>'+p.name+'</b><span class="rollingdie">🎲</span><div>サイコロを転がしています…</div>';$("popup").classList.add("show");await new Promise(r=>setTimeout(r,850));let n=1+Math.floor(Math.random()*6);dbg("ROLL_RESULT",String(n));$("popupBox").innerHTML='<span class="popplayer">'+pv+'</span><b>'+p.name+'</b><span class="dicebig">'+["⚀","⚁","⚂","⚃","⚄","⚅"][n-1]+'</span><div>出た目は <b style="font-size:38px">'+n+'</b>！</div>';await new Promise(r=>setTimeout(r,850));$("popup").classList.remove("show");beginMovement(n,"normal",false);let plan=bestRollRoute(p.pos,n,goalNode(),null);$("guide").textContent=plan?.exact?"🎯 "+n+"マスちょうどで目的地に着けるルートを赤線表示！":n+"マス進みます。"+(p.cpu?"":"赤線を参考に光ったマスをタップ！");if(p.cpu)cpuStep();else{render();highlight()}}
 function moveTo(p,next,record=true){
  if(!next||!S.nodes[next]||!nb(p.pos).includes(next))return false;
- S.prev=p.pos;p.pos=next;
+ let from=p.pos,wasTurn=!!S.prev&&next===S.prev,remainingBefore=S.remaining;
+ if(!S.forcedMove&&wasTurn){
+  let forward=nb(from).filter(x=>x!==S.prev);
+  if(forward.length||!S.passedGoal||S.turnaroundUsed)return false;
+  S.turnaroundUsed=true;dbg("TURNAROUND_RESCUE",from+" -> "+next);
+ }
+ S.prev=from;p.pos=next;
+ if(!S.forcedMove&&next===goalNode()&&remainingBefore>1)S.passedGoal=true;
  if(record){if(!Array.isArray(p.history))p.history=[S.prev];p.history.push(next)}
  S.remaining=Math.max(0,S.remaining-1);dbg("MOVE_STEP",S.prev+" -> "+next+" remaining="+S.remaining+" mode="+S.moveMode);
  return true;
@@ -251,7 +268,7 @@ async function cpuStep(){
  if(S.remaining<=0)return setTimeout(()=>{if((S.turnSerial||0)===serial)finish(serial)},220);
  setTimeout(()=>{if((S.turnSerial||0)===serial)cpuStep()},320);
 }
-function beginMovement(steps,mode,forced){dbg("MOVE_BEGIN",mode+" "+steps+" forced="+forced);S.remaining=steps;S.prev=null;S.moving=true;S.moveMode=mode;S.forcedMove=forced;S.forcedRoute=[];S.phase=forced?"forced":"moving"}
+function beginMovement(steps,mode,forced){dbg("MOVE_BEGIN",mode+" "+steps+" forced="+forced);S.remaining=steps;S.prev=null;S.passedGoal=false;S.turnaroundUsed=false;S.moving=true;S.moveMode=mode;S.forcedMove=forced;S.forcedRoute=[];S.phase=forced?"forced":"moving"}
 function buildForcedForwardRoute(start,steps){
  let goal=goalNode(),best=null,bestDist=Infinity;
  function dfs(cur,left,prev,route){
