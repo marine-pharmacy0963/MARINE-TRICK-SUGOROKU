@@ -96,17 +96,62 @@ const k=(m,r,c)=>m+":"+r+":"+c,pk=x=>{let a=x.split(":").map(Number);return{m:a[
 function node(m,r,c,t="normal"){let x=k(m,r,c);if(!S.nodes[x])S.nodes[x]={id:x,m,r,c,type:t};return x}function edge(a,b){let e=eid(a,b);if(a!==b&&!S.edges.includes(e))S.edges.push(e)}function nb(x){let z=[];for(let e of S.edges){let[a,b]=e.split("|");if(a===x)z.push(b);else if(b===x)z.push(a)}return z}
 function path(a,b){if(!a||!b)return null;let q=[a],p={[a]:null};for(let i=0;i<q.length;i++){let x=q[i];if(x===b){let z=[];while(x){z.push(x);x=p[x]}return z.reverse()}for(let y of nb(x))if(!(y in p)){p[y]=x;q.push(y)}}return null}
 function carve(a,b){let A=pk(a),B=pk(b),cur=a,guard=0;while(cur!==b&&guard++<400){let X=pk(cur),opts=[];if(X.r<B.r)opts.push([1,0]);if(X.r>B.r)opts.push([-1,0]);if(X.c<B.c)opts.push([0,1]);if(X.c>B.c)opts.push([0,-1]);let z=opts[Math.floor(Math.random()*opts.length)],nr=X.r+z[0],nc=X.c+z[1],nm=X.m;if(nr>=R){nm++;nr=0}if(nr<0){nm--;nr=R-1}if(nm<0||nm>=S.maps)continue;let y=node(nm,nr,nc);edge(cur,y);cur=y}}
-function gen(){S.maps=+$("length").value;S.nodes={};S.edges=[];S.dests=[];
- for(let m=0;m<S.maps;m++){
-  let row=3,a=node(m,row,0,"destination"),b=node(m,row,6,"destination"),c=node(m,row,12,"destination");
-  S.dests.push({id:m*3+1,node:a},{id:m*3+2,node:b},{id:m*3+3,node:c});
-  for(let col=0;col<12;col++)edge(node(m,row,col),node(m,row,col+1));
-  for(let rr=0;rr<6;rr++)edge(node(m,rr,6),node(m,rr+1,6));
-  if(m<S.maps-1)edge(node(m,6,6),node(m+1,0,6));
+function shuffle(a){return a.slice().sort(()=>Math.random()-.5)}
+function randomRoute(m,start,target,minC,maxC){
+ let seen=new Set([start]),route=[start],limit=R*C*3;
+ function dfs(cur,depth){
+  if(cur===target)return true;if(depth>limit)return false;
+  let X=pk(cur),B=pk(target),opts=shuffle(D).map(z=>[X.r+z[0],X.c+z[1]]).filter(([r,c])=>r>=0&&r<R&&c>=minC&&c<=maxC);
+  opts.sort((u,v)=>{let du=Math.abs(u[0]-B.r)+Math.abs(u[1]-B.c),dv=Math.abs(v[0]-B.r)+Math.abs(v[1]-B.c);return (du+Math.random()*4)-(dv+Math.random()*4)});
+  for(let [r,c] of opts){let y=k(m,r,c);if(seen.has(y))continue;if(S.nodes[y]&&y!==target)continue;seen.add(y);route.push(y);if(dfs(y,depth+1))return true;route.pop()}
+  return false;
  }
- let budget=S.maps*42;
- for(let i=0;i<budget;i++){let keys=Object.keys(S.nodes),cur=keys[Math.floor(Math.random()*keys.length)],steps=1+Math.floor(Math.random()*4);for(let q=0;q<steps;q++){let X=pk(cur),opts=D.slice().sort(()=>Math.random()-.5),made=false;for(let z of opts){let nr=X.r+z[0],nc=X.c+z[1];if(nr<0||nr>=R||nc<0||nc>=C)continue;let y=k(X.m,nr,nc);if(!S.nodes[y]){node(X.m,nr,nc);edge(cur,y);cur=y;made=true;break}}if(!made)break}}
- let types=["normal","normal","shell1","shell1","shell2","shell3","forward","back","rest","event"];for(let n of Object.values(S.nodes))if(n.type!=="destination")n.type=types[Math.floor(Math.random()*types.length)];}
+ if(!dfs(start,0))return false;
+ for(let i=0;i<route.length;i++){let P=pk(route[i]);node(P.m,P.r,P.c,i===0&&S.nodes[route[i]]?.type==="destination"?"destination":"normal");if(i)edge(route[i-1],route[i])}
+ return true;
+}
+function addRandomBranches(m,count){
+ for(let i=0;i<count;i++){let keys=Object.keys(S.nodes).filter(x=>pk(x).m===m),cur=keys[Math.floor(Math.random()*keys.length)],steps=1+Math.floor(Math.random()*5);for(let q=0;q<steps;q++){let X=pk(cur),opts=shuffle(D),made=false;for(let z of opts){let nr=X.r+z[0],nc=X.c+z[1];if(nr<0||nr>=R||nc<0||nc>=C)continue;let y=k(m,nr,nc);if(!S.nodes[y]){node(m,nr,nc);edge(cur,y);cur=y;made=true;break}}if(!made)break}}
+}
+function addRandomShortcuts(m){
+ let count=Math.random()<.38?0:(Math.random()<.78?1:2);
+ for(let n=0;n<count;n++){
+  let keys=Object.keys(S.nodes).filter(x=>pk(x).m===m),pairs=[];
+  for(let i=0;i<keys.length;i++)for(let j=i+1;j<keys.length;j++){let A=pk(keys[i]),B=pk(keys[j]),md=Math.abs(A.r-B.r)+Math.abs(A.c-B.c);if(md>=4&&!path(keys[i],keys[j])?.slice(0,4).includes(keys[j]))pairs.push([keys[i],keys[j],md])}
+  shuffle(pairs);let made=false;
+  for(let [a,b,md] of pairs.slice(0,30)){let existing=path(a,b),oldDist=existing?existing.length-1:999;if(oldDist<=md+2)continue;let A=pk(a),B=pk(b),minC=Math.min(A.c,B.c),maxC=Math.max(A.c,B.c);if(randomRoute(m,a,b,minC,maxC)){made=true;break}}
+  if(!made)break;
+ }
+}
+function validateGenerated(){
+ if(S.dests.length!==S.maps*3)return false;
+ let start=k(0,6,6),root=S.nodes[start]?start:S.dests[0]?.node;if(!root)return false;
+ if(!S.dests.every(d=>!!path(root,d.node)))return false;
+ for(let m=0;m<S.maps-1;m++)if(!S.edges.includes(eid(k(m,6,6),k(m+1,0,6))))return false;
+ return Object.values(S.nodes).every(n=>n.type==="destination"?nb(n.id).length>0:true);
+}
+function gen(){S.maps=+$('length').value;
+ for(let attempt=0;attempt<24;attempt++){
+  S.nodes={};S.edges=[];S.dests=[];let ok=true;
+  for(let m=0;m<S.maps;m++){
+   let row=3,a=node(m,row,0,"destination"),b=node(m,row,6,"destination"),c=node(m,row,12,"destination");
+   S.dests.push({id:m*3+1,node:a},{id:m*3+2,node:b},{id:m*3+3,node:c});
+   // シート間のセンター骨格は従来どおり最短距離の直線で固定する。
+   for(let rr=0;rr<6;rr++)edge(node(m,rr,6),node(m,rr+1,6));
+   if(m<S.maps-1)edge(node(m,6,6),node(m+1,0,6));
+   // 左右の目的地は、センター骨格上の接続地点を毎回変え、1マスずつランダムに伸ばして接続する。
+   let leftJoin=node(m,Math.floor(Math.random()*R),6),rightJoin=node(m,Math.floor(Math.random()*R),6);
+   if(!randomRoute(m,a,leftJoin,0,6)){ok=false;break}
+   if(!randomRoute(m,c,rightJoin,6,12)){ok=false;break}
+   addRandomBranches(m,10+Math.floor(Math.random()*8));
+   addRandomShortcuts(m);
+  }
+  if(ok&&validateGenerated()){
+   let types=["normal","normal","shell1","shell1","shell2","shell3","forward","back","rest","event"];for(let n of Object.values(S.nodes))if(n.type!=="destination")n.type=types[Math.floor(Math.random()*types.length)];return;
+  }
+ }
+ throw new Error("到達可能なランダム盤面を生成できませんでした");
+}
 function goalNode(){return S.dests.find(d=>d.id===S.goal)?.node}function visual(n){if(n.type==="destination"){let id=S.dests.find(d=>d.node===n.id)?.id,d=CFG.destinations[id-1];return d.icon?'<img src="'+d.icon+'">':d.emoji}let im=CFG.tiles[n.type];return im?'<img src="'+im+'">':(T[n.type]||"")}
 function renderMap(el,mode,mapOnly=null){el.innerHTML="";for(let m=0;m<S.maps;m++){if(mapOnly!==null&&m!==mapOnly)continue;let M=document.createElement("div");M.className="map";for(let r=0;r<R;r++)for(let c=0;c<C;c++){let id=k(m,r,c),n=S.nodes[id],x=document.createElement("div");x.className="cell"+(n?" active":"");x.dataset.node=id;if(n){for(let y of nb(id)){let B=pk(y);if(B.m!==m)continue;if(B.r===r&&B.c===c+1)x.innerHTML+='<i class="road h r"></i>';if(B.r===r&&B.c===c-1)x.innerHTML+='<i class="road h l"></i>';if(B.c===c&&B.r===r+1)x.innerHTML+='<i class="road v d"></i>';if(B.c===c&&B.r===r-1)x.innerHTML+='<i class="road v u"></i>'}x.innerHTML+='<div class="tile">'+visual(n)+'</div>';let did=S.dests.find(d=>d.node===id)?.id;if(did===S.goal)x.innerHTML+='<div class="goalmark">🎯 目的地</div>';if(mode==="game"){let here=S.players.filter(p=>p.pos===id);here.forEach((p,pi)=>{let q=CFG.icons[p.icon]||CFG.icons[0],t=document.createElement("div");t.className="token"+(here.length>4?" cluster":"");let n=here.length,ang=(-Math.PI/2)+(2*Math.PI*pi/n),rad=n<=1?0:n<=4?20:30;t.style.marginLeft=(Math.cos(ang)*rad)+"px";t.style.marginTop=(Math.sin(ang)*rad)+"px";t.innerHTML=q.image?'<img src="'+q.image+'">':q.emoji;x.appendChild(t)})}}M.appendChild(x)}el.appendChild(M)}}
 
