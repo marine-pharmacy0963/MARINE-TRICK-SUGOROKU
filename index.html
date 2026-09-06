@@ -407,8 +407,11 @@ function rebuildPlayerSelectors(){
    let title=document.createElement("b");title.textContent=i<humans?"👤 プレイヤー"+(i+1):"🤖 CPU"+(i-humans+1);
    let sel=document.createElement("select");sel.dataset.playerIcon=String(i);
    CFG.icons.forEach((icon,j)=>{let o=document.createElement("option");o.value=String(j);o.textContent=(icon.emoji||"🐟")+" "+icon.name;if((chosenIcons[i]??0)===j)o.selected=true;sel.appendChild(o)});
-   sel.onchange=()=>{chosenIcons[i]=Number(sel.value)};
-   label.append(title,sel);grid.appendChild(label);
+   let preview=document.createElement("div");preview.style.cssText="width:64px;height:64px;margin:8px auto;border-radius:50%;background:#fff;border:3px solid #0b5871;display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:38px";
+   function refreshIconPreview(){let icon=CFG.icons[Number(sel.value)]||CFG.icons[0];preview.innerHTML=icon?.image?'<img src="'+icon.image+'" style="width:100%;height:100%;object-fit:cover">':(icon?.emoji||"🐟")}
+   sel.onchange=()=>{chosenIcons[i]=Number(sel.value);refreshIconPreview()};
+   refreshIconPreview();
+   label.append(title,preview,sel);grid.appendChild(label);
  }
 }
 $("humans").addEventListener("change",rebuildPlayerSelectors);
