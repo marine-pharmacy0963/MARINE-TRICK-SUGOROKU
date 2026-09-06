@@ -123,11 +123,40 @@ function addRandomShortcuts(m){
   if(!made)break;
  }
 }
+function addRandomInterMapLinks(){
+ // 中央の必須シート間接続は残したまま、別の列にもランダムなシート間ルートを追加する。
+ // 各境界に1本、時々2本。中央列(6)は追加候補から外し、中央一択を崩す。
+ for(let m=0;m<S.maps-1;m++){
+  let count=Math.random()<.72?1:2,used=new Set([6]);
+  for(let n=0;n<count;n++){
+   let cols=shuffle(Array.from({length:C},(_,i)=>i).filter(c=>!used.has(c)&&Math.abs(c-6)>=2));
+   let made=false;
+   for(let col of cols){
+    let from=k(m,6,col),to=k(m+1,0,col);
+    // 追加出入口を、それぞれのシート内の既存道路へランダムルートでつなぐ。
+    let leftAnchors=shuffle(Object.keys(S.nodes).filter(x=>{let p=pk(x);return p.m===m&&x!==from&&nb(x).length>0}));
+    let rightAnchors=shuffle(Object.keys(S.nodes).filter(x=>{let p=pk(x);return p.m===m+1&&x!==to&&nb(x).length>0}));
+    if(!leftAnchors.length||!rightAnchors.length)continue;
+    node(m,6,col);node(m+1,0,col);
+    let a=leftAnchors[0],b=rightAnchors[0];
+    if(!randomRoute(m,a,from,0,C-1))continue;
+    if(!randomRoute(m+1,b,to,0,C-1))continue;
+    edge(from,to);used.add(col);made=true;break;
+   }
+   if(!made)return false;
+  }
+ }
+ return true;
+}
 function validateGenerated(){
  if(S.dests.length!==S.maps*3)return false;
  let start=k(0,6,6),root=S.nodes[start]?start:S.dests[0]?.node;if(!root)return false;
  if(!S.dests.every(d=>!!path(root,d.node)))return false;
- for(let m=0;m<S.maps-1;m++)if(!S.edges.includes(eid(k(m,6,6),k(m+1,0,6))))return false;
+ for(let m=0;m<S.maps-1;m++){
+  if(!S.edges.includes(eid(k(m,6,6),k(m+1,0,6))))return false;
+  let cross=S.edges.filter(e=>{let [a,b]=e.split("|").map(pk);return (a.m===m&&b.m===m+1)||(b.m===m&&a.m===m+1)});
+  if(cross.length<2)return false;
+ }
  return Object.values(S.nodes).every(n=>n.type==="destination"?nb(n.id).length>0:true);
 }
 function gen(){S.maps=+$('length').value;
@@ -146,7 +175,7 @@ function gen(){S.maps=+$('length').value;
    addRandomBranches(m,10+Math.floor(Math.random()*8));
    addRandomShortcuts(m);
   }
-  if(ok&&validateGenerated()){
+  if(ok&&addRandomInterMapLinks()&&validateGenerated()){
    let types=["normal","normal","shell1","shell1","shell2","shell3","forward","back","rest","event"];for(let n of Object.values(S.nodes))if(n.type!=="destination")n.type=types[Math.floor(Math.random()*types.length)];return;
   }
  }
